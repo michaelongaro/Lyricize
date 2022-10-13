@@ -1,0 +1,12 @@
+.hero {
+  height: 100vh;
+  gap: 1rem;
+}
+
+.hero div {
+  color: white;
+}
+
+.spotifyText {
+  color: green;
+}
