@@ -19,7 +19,9 @@ const sanitizeLyrics = (lyrics: string): string => {
 
   lyrics = words
     .map((word) => {
-      return word[0].toUpperCase() + word.substring(1);
+      if (word && word[0]) {
+        return word[0].toUpperCase() + word.substring(1);
+      }
     })
     .join(" ");
 
@@ -49,27 +51,20 @@ const appendLyricToArray = (
 const sortLyricsByOccurances = (
   lyrics: [string, number][]
 ): [string, number][] => {
-  console.log("lyrics", lyrics);
-
   // var that stores sorted values of regular descendin
-  const top100Lyrics = lyrics
-    .sort(function (a, b) {
-      if (a[1] > b[1]) return -1;
-      if (a[1] < b[1]) return 1;
-      return 0;
-    })
-    .splice(0, 100);
+  const topLyrics = lyrics.sort(function (a, b) {
+    if (a[1] > b[1]) return -1;
+    if (a[1] < b[1]) return 1;
+    return 0;
+  });
 
-  return top100Lyrics;
+  return topLyrics;
 };
 
 const getOccurancesPerLyric = (lyrics: string): [string, number][] => {
-  // let wordObj: ILyricCount = {}
-
   let talliedLyrics: [string, number][] = [];
 
   const lyricsArr = lyrics.split(" ");
-  console.log(lyrics);
 
   for (const lyric of lyricsArr) {
     talliedLyrics = appendLyricToArray(talliedLyrics, lyric);
@@ -88,32 +83,23 @@ export const getLyrics = async (req: Request, res: Response) => {
     const songName = song.split(",")[0];
     const artistName = song.split(",")[1];
 
-    // if (promises.length < 3) {
+    const searches = await Client.songs.search(songName + artistName);
 
-    let searches;
-    try {
-      searches = await Client.songs.search(songName + artistName);
-    } catch {
-      console.log("couldn't find:", songName + " " + artistName);
+    if (searches && searches.length !== 0) {
+      promises.push(searches[0].lyrics());
     }
-
-    if (searches && searches[0]) {
-      promises.push(await searches[0].lyrics()); // handle undefined case
-    }
-
-    // }
   }
 
   Promise.allSettled(promises).then((results) => {
-    console.log(results.length);
     let formattedResults = "";
     for (const result of results) {
       // @ts-ignore
-      formattedResults += sanitizeLyrics(result.value);
+      if (result.value !== "") {
+        // @ts-ignore
+        formattedResults += sanitizeLyrics(result.value);
+      }
     }
 
-    console.log(
-      sortLyricsByOccurances(getOccurancesPerLyric(formattedResults))
-    );
+    res.json(sortLyricsByOccurances(getOccurancesPerLyric(formattedResults)));
   });
 };
