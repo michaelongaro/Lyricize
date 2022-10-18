@@ -9,10 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@weknow/react-bubble-chart-d3": "^1.0.12",
     "axios": "^1.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "spotify-web-api-node": "^5.0.2"
+    "spotify-web-api-node": "^5.0.2",
+    "use-screen-size": "^1.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",
