@@ -1,7 +1,7 @@
-import React, { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 import SpotifyWebApi from "spotify-web-api-node";
-import axios from "axios";
+import { useFetchUserLyrics } from "../hooks/useFetchUserLyrics";
 
 // import useSendSongsToBackend from "../hooks/useSendSongsToBackend";
 import sendSongsToBackend from "../util/sendSongsToBackend";
@@ -9,8 +9,10 @@ import sendSongsToBackend from "../util/sendSongsToBackend";
 interface ISpotifyContext {
   accessToken: string | null;
   setAccessToken: Function;
-  // userSongList: object;
-  // setUserSongList: Function;
+  userLyrics: [string, number][] | boolean | null;
+  setUserLyrics: Function;
+  currentPFP: string | null;
+  currentUsername: string | null;
 }
 
 const SpotifyContext = createContext<ISpotifyContext | null>(null);
@@ -21,19 +23,52 @@ const spotifyApi = new SpotifyWebApi({
 
 export function SpotifyProvider(props: any) {
   const [accessToken, setAccessToken] = useState(null);
+
   const [userSongList, setUserSongList] = useState<string[] | null>(null);
   const [totalLikedSongs, setTotalLikedSongs] = useState<number | null>(null);
   const [globalLyrics, setGlobalLyrics] = useState(null);
 
+  const [currentPFP, setCurrentPFP] = useState<string | null>(null);
+  const [currentUsername, setCurrentUsername] = useState<string | null>(null);
+  const [userLyrics, setUserLyrics] = useState<
+    [string, number][] | boolean | null
+  >(null);
+
   useEffect(() => {
     if (accessToken) {
-      spotifyApi.setAccessToken(accessToken);
+      spotifyApi.setAccessToken(accessToken); // looks like this is fine to stay up here
+
+      spotifyApi.getMe().then((res) => {
+        console.log("details:", res.body);
+        const imageResults = res.body.images;
+        if (imageResults && imageResults.length > 0) {
+          setCurrentPFP(imageResults[0].url);
+        } else {
+          // make it falsey in some way
+          setCurrentPFP("User has no PFP");
+        }
+        setCurrentUsername(res.body.id);
+      });
+    }
+  }, [accessToken]);
+
+  // idk if this is worth having in custom hook but it should work
+  useFetchUserLyrics(currentUsername, setUserLyrics);
+
+  // relook at this after because I think it breaks the rule of having
+  // multiple effects chained together..
+
+  useEffect(() => {
+    console.log("userLyrics came back with", userLyrics);
+
+    if (userLyrics === false) {
+      console.log("hopefully going in hyaaa");
 
       spotifyApi.getMySavedTracks({ limit: 1 }).then((res) => {
         setTotalLikedSongs(res.body.total);
       });
     }
-  }, [accessToken]);
+  }, [userLyrics]);
 
   useEffect(() => {
     if (totalLikedSongs) {
@@ -42,11 +77,14 @@ export function SpotifyProvider(props: any) {
   }, [totalLikedSongs]);
 
   useEffect(() => {
-    if (userSongList && userSongList.length === totalLikedSongs) {
-      // useSendSongsToBackend(userSongList);
-      sendSongsToBackend(userSongList);
+    if (
+      currentUsername &&
+      userSongList &&
+      userSongList.length === totalLikedSongs
+    ) {
+      sendSongsToBackend(currentUsername, userSongList);
     }
-  }, [userSongList, totalLikedSongs]);
+  }, [userSongList, totalLikedSongs, currentUsername]);
 
   interface IArtist {
     name: string;
@@ -90,7 +128,14 @@ export function SpotifyProvider(props: any) {
     }
   };
 
-  const context = { accessToken, setAccessToken };
+  const context = {
+    accessToken,
+    setAccessToken,
+    userLyrics,
+    setUserLyrics,
+    currentPFP,
+    currentUsername,
+  };
 
   return (
     <SpotifyContext.Provider value={context}>
