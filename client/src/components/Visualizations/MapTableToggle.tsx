@@ -8,6 +8,8 @@ import LyricMap from "./LyricMap";
 
 import classes from "./MapTableToggle.module.css";
 import "../../index.css";
+import PersonalGlobalToggle from "../PersonalGlobalToggle/PersonalGlobalToggle";
+import UserData from "../UserData/UserData";
 
 type Props = {
   code: string;
@@ -28,7 +30,9 @@ function MapTableToggle({ code }: Props) {
   }, [accessToken]);
 
   return (
-    <div className={"baseVertFlex"}>
+    <div style={{ gap: "1.5rem" }} className={"baseVertFlex"}>
+      <PersonalGlobalToggle />
+      <UserData />
       <div
         style={{ gap: "1rem" }}
         className={`${classes.toggleButtonsContainer} baseFlex`}
@@ -36,7 +40,6 @@ function MapTableToggle({ code }: Props) {
         <button onClick={() => setMapSelected(true)}>Map</button>
         <button onClick={() => setMapSelected(false)}>List</button>
       </div>
-
       {mapSelected ? <LyricMap /> : <LyricTable />}
     </div>
   );
