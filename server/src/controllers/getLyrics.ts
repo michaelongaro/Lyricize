@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 
+import { UserLyrics } from "../models/lyrics.js";
+
 import Genius from "genius-lyrics";
 const Client = new Genius.Client();
 
@@ -74,7 +76,10 @@ const getOccurancesPerLyric = (lyrics: string): [string, number][] => {
 };
 
 export const getLyrics = async (req: Request, res: Response) => {
+  const currentUsername = req.body.currentUsername;
   const songs = req.body.songs;
+
+  console.log("username:", currentUsername);
 
   const lyrics: any = []; // narrow later
   const promises = [];
@@ -100,6 +105,48 @@ export const getLyrics = async (req: Request, res: Response) => {
       }
     }
 
-    res.json(sortLyricsByOccurances(getOccurancesPerLyric(formattedResults)));
+    const finalUserResult = sortLyricsByOccurances(
+      getOccurancesPerLyric(formattedResults)
+    );
+
+    const newUserDoc = new UserLyrics(
+      {
+        spotifyUsername: currentUsername,
+        sortedLyrics: finalUserResult,
+      },
+      "users"
+    );
+    newUserDoc.save();
+
+    // check if user exists in global collection already
+
+    UserLyrics.findOneAndUpdate(
+      { spotifyUsername: currentUsername },
+      newUserDoc, // finalUserResult
+      { upsert: true },
+      function (err, doc) {
+        if (err) console.log("error", err);
+        else console.log("doc", doc);
+        // return res.send("Succesfully saved.");
+      }
+    );
+
+    // i think will need to loop over global values and put into var that mimics [[string, number]]
+
+    // GlobalLyrics.find({ spotifyUsername: currentUsername })
+    //   .exec()
+    //   .then((response) => {
+    //     console.log(response);
+
+    //     // update if already there
+    //     if (response.length > 0) {
+    //       res.json(response[0][usersArr]["sortedLyrics"]);
+    //     }
+    //     // otherwise add user data to existing arr
+    //     else {
+    //     }
+    //   });
+
+    res.json(finalUserResult);
   });
 };
