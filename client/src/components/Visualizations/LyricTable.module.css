@@ -1,0 +1,51 @@
+.headerTableContainer {
+  gap: 2.5rem;
+}
+
+.table {
+  background-color: hsl(0, 0%, 10%);
+}
+
+.row {
+  /* display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 3rem; */
+  padding: 1rem 1.5rem;
+}
+
+table {
+  /* HEY look and see if this is actually the move, lines do look pretty cool */
+  border-collapse: separate !important;
+  border-radius: .75rem;
+}
+
+td,
+th {
+  text-align: center;
+  color: rgb(190, 190, 190);
+  padding: 0.5rem;
+}
+
+tr:nth-child(even) {
+  background-color: #3b3b3b;
+}
+
+/* thead {
+  border-radius: 0.75rem;
+} */
+
+/* table:last-child {
+  border-radius: 0 0 0.75rem 0.75rem;
+} */
+
+.legendRow {
+  /* border-radius: 0.75rem 0.75rem 0 0 !important; */
+  background-color: hsl(0, 0%, 45%);
+  /* height: 135%; */
+}
+
+.legendRow th {
+  color: black;
+}

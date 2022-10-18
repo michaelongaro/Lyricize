@@ -1,0 +1,15 @@
+.dataContainer {
+  gap: 1.5rem;
+}
+
+.pseudoPFP {
+  border-radius: 50%;
+  width: 4.5rem;
+  height: 4.5rem;
+  background-color: rgb(204, 204, 204);
+}
+
+.username {
+  color: rgb(204, 204, 204);
+  font-size: 1.5em;
+}

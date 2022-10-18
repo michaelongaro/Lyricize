@@ -1,0 +1,7 @@
+.toggleContain {
+  gap: 1.5rem;
+}
+
+.toggleContain button {}
+
+/* prob just make non selected one be lower opacity */
