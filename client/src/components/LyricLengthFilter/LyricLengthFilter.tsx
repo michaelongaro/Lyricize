@@ -12,6 +12,8 @@ function LyricLengthFilter({
   originalUserLyrics,
   setFilteredUserLyrics,
 }: Props) {
+  console.log("OG lyrics are:", originalUserLyrics);
+
   const [buttonClickedStates, setButtonClickedStates] = useState<boolean[]>([
     false,
     false,
@@ -57,39 +59,43 @@ function LyricLengthFilter({
     filterLyricsByLength(newState ? value : -1);
   };
 
-  useEffect(() => {}, [buttonClickedStates]);
+  useEffect(() => {
+    if (originalUserLyrics) {
+      filterLyricsByLength(-1);
+    }
+  }, [originalUserLyrics]);
 
   return (
-    <div className={`${classes.buttonContainer} baseFlex`}>
+    <div className={"buttonContainer baseFlex"}>
       <div style={{ marginRight: "1.5rem", color: "rgb(204, 204, 204)" }}>
         Letters
       </div>
       <button
-        className={buttonClickedStates[0] ? classes.toggledOn : ""}
+        className={buttonClickedStates[0] ? "toggledOn" : ""}
         onClick={() => updateButtonClickedStates(0, !buttonClickedStates[0], 3)}
       >
         3
       </button>
       <button
-        className={buttonClickedStates[1] ? classes.toggledOn : ""}
+        className={buttonClickedStates[1] ? "toggledOn" : ""}
         onClick={() => updateButtonClickedStates(1, !buttonClickedStates[1], 4)}
       >
         4
       </button>
       <button
-        className={buttonClickedStates[2] ? classes.toggledOn : ""}
+        className={buttonClickedStates[2] ? "toggledOn" : ""}
         onClick={() => updateButtonClickedStates(2, !buttonClickedStates[2], 5)}
       >
         5
       </button>
       <button
-        className={buttonClickedStates[3] ? classes.toggledOn : ""}
+        className={buttonClickedStates[3] ? "toggledOn" : ""}
         onClick={() => updateButtonClickedStates(3, !buttonClickedStates[3], 6)}
       >
         6
       </button>
       <button
-        className={buttonClickedStates[4] ? classes.toggledOn : ""}
+        className={buttonClickedStates[4] ? "toggledOn" : ""}
         onClick={() => updateButtonClickedStates(4, !buttonClickedStates[4], 7)}
       >
         7+
