@@ -1,0 +1,23 @@
+.refreshButton {
+  height: 3.33rem;
+
+  background-color: #1db954;
+
+  cursor: pointer;
+
+  transition: all 150ms;
+}
+
+.refreshButton img {
+  width: 1.5rem;
+  height: 1.5rem;
+  transition: all 150ms;
+}
+
+.refreshButton:hover {
+  filter: brightness(1.05);
+}
+
+.refreshButton:active {
+  filter: brightness(0.95);
+}
