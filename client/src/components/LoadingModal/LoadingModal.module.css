@@ -1,8 +1,24 @@
+.modalBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+  background: rgb(0 0 0 / 75%);
+
+  z-index: 500;
+}
+
 .modalContainer {
   border-radius: 0.75rem;
   background-color: rgb(204, 204, 204);
   padding: 3rem;
   gap: 1rem;
+
+  box-shadow: 0 2px 5px 2px #ffffff57;
+
+  z-index: 501;
 }
 
 .parentLoader {
@@ -97,38 +113,38 @@
 
 @-webkit-keyframes color {
   0% {
-    stroke: #1DB954;
+    stroke: #1db954;
   }
 
   40% {
-    stroke: #1DB954;
+    stroke: #1db954;
   }
 
   66% {
-    stroke: #1DB954;
+    stroke: #1db954;
   }
 
   80%,
   90% {
-    stroke: #1DB954;
+    stroke: #1db954;
   }
 }
 
 @keyframes color {
   0% {
-    stroke: #1DB954;
+    stroke: #1db954;
   }
 
   40% {
-    stroke: #1DB954;
+    stroke: #1db954;
   }
 
   66% {
-    stroke: #1DB954;
+    stroke: #1db954;
   }
 
   80%,
   90% {
-    stroke: #1DB954;
+    stroke: #1db954;
   }
 }
