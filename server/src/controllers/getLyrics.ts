@@ -7,23 +7,20 @@ import { UserLyrics, GlobalLyrics } from "../models/lyrics.js";
 const Client = new Genius.Client();
 
 const sanitizeLyrics = (lyrics: string): string => {
-  lyrics = lyrics.slice(0, 1).toUpperCase() + lyrics.slice(1).toLowerCase();
-
-  const firstRegex = /\[[^\]]*\]/gm;
-  const secondRegex = /[.,()!{}|?;:"]/gm;
+  const chorusMatch = /\[[^\]]*\]/gm;
+  const punctuationMatch = /[.,()!{}|?;:"]/gm;
 
   lyrics = lyrics.replaceAll("\n", " ");
-  lyrics = lyrics.replaceAll(firstRegex, " ");
-  lyrics = lyrics.replaceAll(secondRegex, " ");
+  lyrics = lyrics.replaceAll(chorusMatch, " ");
+  lyrics = lyrics.replaceAll(punctuationMatch, " ");
 
-  lyrics = lyrics.trim().replace(/ +/g, " ");
+  lyrics = lyrics.trim().replaceAll(/\s+/g, " "); // turns all spaces (of any length) into just one space
 
-  let words = lyrics.split(" ");
-
-  lyrics = words
+  lyrics = lyrics
+    .split(" ")
     .map((word) => {
-      if (word && word[0]) {
-        return word[0].toUpperCase() + word.substring(1);
+      if (word) {
+        return word[0].toUpperCase() + word.substring(1).toLowerCase();
       }
     })
     .join(" ");
@@ -54,14 +51,13 @@ const appendLyricToArray = (
 const sortLyricsByOccurances = (
   lyrics: [string, number][]
 ): [string, number][] => {
-  // var that stores sorted values of regular descendin
-  const topLyrics = lyrics.sort(function (a, b) {
+  const lyricsByDescendingOccurances = lyrics.sort(function (a, b) {
     if (a[1] > b[1]) return -1;
     if (a[1] < b[1]) return 1;
     return 0;
   });
 
-  return topLyrics;
+  return lyricsByDescendingOccurances;
 };
 
 const getOccurancesPerLyric = (lyrics: string): [string, number][] => {
@@ -164,9 +160,8 @@ export const getLyrics = async (req: Request, res: Response) => {
     UserLyrics.findOneAndUpdate(
       { spotifyUsername: currentUsername },
       { sortedLyrics: finalUserResult },
-      { upsert: true }, // hopefully adds properly
+      { upsert: true },
       function (err, doc) {
-        // if user doesn't exist yet, add them to collection
         if (err) {
           console.log("error was:", err);
         } else console.log("user doc", doc);
