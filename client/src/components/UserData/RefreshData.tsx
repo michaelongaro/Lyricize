@@ -16,11 +16,16 @@ function RefreshData({}: Props) {
   return (
     <button
       className={`${classes.refreshButton} baseFlex`}
-      onClick={() => spotifyCtx?.setRefreshLyrics(true)}
       onMouseDown={() => setRotateDegrees("270deg")}
       onTouchStart={() => setRotateDegrees("270deg")}
-      onMouseUp={() => setRotateDegrees("0deg")}
-      onTouchEnd={() => setRotateDegrees("0deg")}
+      onMouseUp={() => {
+        setRotateDegrees("0deg");
+        spotifyCtx?.setRefreshLyrics(true);
+      }}
+      onTouchEnd={() => {
+        setRotateDegrees("0deg");
+        spotifyCtx?.setRefreshLyrics(true);
+      }}
       onMouseOut={() => setRotateDegrees("0deg")}
       onTouchCancel={() => setRotateDegrees("0deg")}
     >
