@@ -1,9 +1,4 @@
-.containerSpacing>div {
-  margin-top: 0;
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
 }
-
-.toggleButtonsContainer {
-  margin-top: .5rem;
-}
-
-.toggleButtonsContainer button {}
