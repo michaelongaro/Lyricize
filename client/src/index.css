@@ -75,3 +75,47 @@ ul {
   align-items: center;
   flex-direction: column;
 }
+
+.buttonContainer {
+  border-radius: 0.75rem;
+}
+
+.buttonContainer button,
+.changeShownLyricAmount {
+  border: 1px solid rgb(59, 59, 59);
+  padding: .35rem .75rem;
+  cursor: pointer;
+  transition: all 100ms;
+}
+
+.buttonContainer button:first-of-type {
+  border-radius: .75rem 0 0 .75rem;
+}
+
+.buttonContainer button:last-of-type {
+  border-radius: 0 .75rem .75rem 0;
+}
+
+.buttonContainer button:hover {
+  filter: brightness(.75);
+}
+
+.toggledOn {
+  box-shadow: inset 0px 1px 3px 1px hsl(0deg 0% 0% / 85%);
+}
+
+circle {
+  transition: all 100ms;
+}
+
+.changeShownLyricAmount {
+  border-radius: .75rem;
+}
+
+.changeShownLyricAmount:disabled {
+  cursor: auto;
+}
+
+.changeShownLyricAmount:enabled:hover {
+  filter: brightness(.75);
+}
