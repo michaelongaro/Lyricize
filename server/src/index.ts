@@ -1,6 +1,8 @@
 import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 import loginRoute from "./routes/login.js";
 
