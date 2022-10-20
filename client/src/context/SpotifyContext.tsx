@@ -1,16 +1,31 @@
 import { createContext, useEffect, useState } from "react";
 
 import SpotifyWebApi from "spotify-web-api-node";
-import { useFetchUserLyrics } from "../hooks/useFetchUserLyrics";
 
-// import useSendSongsToBackend from "../hooks/useSendSongsToBackend";
-import sendSongsToBackend from "../util/sendSongsToBackend";
+import { useFetchUserLyrics } from "../hooks/useFetchUserLyrics";
+import useSendSongsToBackend from "../hooks/useSendSongsToBackend";
 
 interface ISpotifyContext {
   accessToken: string | null;
-  setAccessToken: Function;
-  userLyrics: [string, number][] | boolean | null;
+  setAccessToken: Function; // these should be proper react setState types
+
+  totalLikedSongs: number | null;
+
+  // dont know if you need to expose all of this
+  userLyrics: [string, number][] | null;
   setUserLyrics: Function;
+  globalLyrics: [string, number][] | null;
+  setGlobalLyrics: Function;
+
+  refreshLyrics: boolean; // needed later for the loading spinner?
+  setRefreshLyrics: Function;
+
+  currentlySelectedLyrics: [string, number][] | null;
+  setCurrentlySelectedLyrics: Function;
+
+  showUserLyrics: boolean;
+  setShowUserLyrics: React.Dispatch<React.SetStateAction<boolean>>;
+
   currentPFP: string | null;
   currentUsername: string | null;
 }
@@ -26,20 +41,28 @@ export function SpotifyProvider(props: any) {
 
   const [userSongList, setUserSongList] = useState<string[] | null>(null);
   const [totalLikedSongs, setTotalLikedSongs] = useState<number | null>(null);
-  const [globalLyrics, setGlobalLyrics] = useState(null);
 
   const [currentPFP, setCurrentPFP] = useState<string | null>(null);
   const [currentUsername, setCurrentUsername] = useState<string | null>(null);
-  const [userLyrics, setUserLyrics] = useState<
-    [string, number][] | boolean | null
+
+  const [userLyrics, setUserLyrics] = useState<[string, number][] | null>(null);
+  const [globalLyrics, setGlobalLyrics] = useState<[string, number][] | null>(
+    null
+  );
+
+  const [currentlySelectedLyrics, setCurrentlySelectedLyrics] = useState<
+    [string, number][] | null
   >(null);
+
+  const [showUserLyrics, setShowUserLyrics] = useState<boolean>(true);
+
+  const [refreshLyrics, setRefreshLyrics] = useState<boolean>(false);
 
   useEffect(() => {
     if (accessToken) {
       spotifyApi.setAccessToken(accessToken); // looks like this is fine to stay up here
 
       spotifyApi.getMe().then((res) => {
-        console.log("details:", res.body);
         const imageResults = res.body.images;
         if (imageResults && imageResults.length > 0) {
           setCurrentPFP(imageResults[0].url);
@@ -52,39 +75,50 @@ export function SpotifyProvider(props: any) {
     }
   }, [accessToken]);
 
-  // idk if this is worth having in custom hook but it should work
-  useFetchUserLyrics(currentUsername, setUserLyrics);
+  useEffect(() => {
+    console.log(showUserLyrics, userLyrics, globalLyrics);
+    if (showUserLyrics) {
+      setCurrentlySelectedLyrics(userLyrics);
+    } else {
+      setCurrentlySelectedLyrics(globalLyrics);
+    }
+  }, [userLyrics, globalLyrics, showUserLyrics]);
+
+  // is this a proper situation/setup for hooks?
+  useFetchUserLyrics(
+    currentUsername,
+    setUserLyrics,
+    setGlobalLyrics,
+    setRefreshLyrics
+  );
+
+  useSendSongsToBackend(
+    currentUsername,
+    userSongList,
+    totalLikedSongs,
+    setUserLyrics,
+    setGlobalLyrics,
+    setRefreshLyrics
+  );
 
   // relook at this after because I think it breaks the rule of having
   // multiple effects chained together..
 
   useEffect(() => {
-    console.log("userLyrics came back with", userLyrics);
-
-    if (userLyrics === false) {
-      console.log("hopefully going in hyaaa");
+    if (refreshLyrics) {
+      console.log("refreshing lyrics");
 
       spotifyApi.getMySavedTracks({ limit: 1 }).then((res) => {
         setTotalLikedSongs(res.body.total);
       });
     }
-  }, [userLyrics]);
+  }, [refreshLyrics]);
 
   useEffect(() => {
     if (totalLikedSongs) {
       getAllLikedSongs();
     }
   }, [totalLikedSongs]);
-
-  useEffect(() => {
-    if (
-      currentUsername &&
-      userSongList &&
-      userSongList.length === totalLikedSongs
-    ) {
-      sendSongsToBackend(currentUsername, userSongList);
-    }
-  }, [userSongList, totalLikedSongs, currentUsername]);
 
   interface IArtist {
     name: string;
@@ -131,8 +165,17 @@ export function SpotifyProvider(props: any) {
   const context = {
     accessToken,
     setAccessToken,
+    totalLikedSongs,
     userLyrics,
     setUserLyrics,
+    globalLyrics,
+    setGlobalLyrics,
+    refreshLyrics,
+    setRefreshLyrics,
+    currentlySelectedLyrics,
+    setCurrentlySelectedLyrics,
+    showUserLyrics,
+    setShowUserLyrics,
     currentPFP,
     currentUsername,
   };
@@ -145,3 +188,5 @@ export function SpotifyProvider(props: any) {
 }
 
 export default SpotifyContext;
+
+// use built-in genius lyrics filter
