@@ -1,15 +1,16 @@
 import { Request, Response } from "express";
 
-import { UserLyrics } from "../models/lyrics.js";
-
 import Genius from "genius-lyrics";
+
+import { UserLyrics, GlobalLyrics } from "../models/lyrics.js";
+
 const Client = new Genius.Client();
 
 const sanitizeLyrics = (lyrics: string): string => {
   lyrics = lyrics.slice(0, 1).toUpperCase() + lyrics.slice(1).toLowerCase();
 
   const firstRegex = /\[[^\]]*\]/gm;
-  const secondRegex = /[.,()!?;:"]/gm;
+  const secondRegex = /[.,()!{}|?;:"]/gm;
 
   lyrics = lyrics.replaceAll("\n", " ");
   lyrics = lyrics.replaceAll(firstRegex, " ");
@@ -75,13 +76,54 @@ const getOccurancesPerLyric = (lyrics: string): [string, number][] => {
   return talliedLyrics;
 };
 
+const recalculateAndUpdateGlobalCollection = (
+  updatedTotalUserLyrics: [string, number][],
+  newLyrics: [string, number][],
+  currentUsername: string
+) => {
+  updatedTotalUserLyrics = newLyrics;
+
+  UserLyrics.find({})
+    .exec()
+    .then((response) => {
+      if (response.length > 0) {
+        for (const user of response) {
+          if (user.spotifyUsername !== currentUsername) {
+            for (const lyric of updatedTotalUserLyrics) {
+              updatedTotalUserLyrics = appendLyricToArray(
+                updatedTotalUserLyrics,
+                lyric[0]
+              );
+            }
+          }
+        }
+
+        // const newGlobalDoc = new GlobalLyrics(
+        //   {
+        //     sortedLyrics: updatedTotalUserLyrics,
+        //   },
+        //   "global"
+        // );
+
+        GlobalLyrics.findOneAndUpdate(
+          {}, // this theoretically will target everything aka the only doc in there
+          {
+            sortedLyrics: updatedTotalUserLyrics,
+          },
+          { upsert: true },
+          function (err, doc) {
+            if (err) console.log("failed", err);
+            else console.log("global doc", doc);
+          }
+        );
+      }
+    });
+};
+
 export const getLyrics = async (req: Request, res: Response) => {
   const currentUsername = req.body.currentUsername;
-  const songs = req.body.songs;
+  const songs = req.body.userSongList;
 
-  console.log("username:", currentUsername);
-
-  const lyrics: any = []; // narrow later
   const promises = [];
 
   for (const song of songs) {
@@ -109,44 +151,34 @@ export const getLyrics = async (req: Request, res: Response) => {
       getOccurancesPerLyric(formattedResults)
     );
 
-    const newUserDoc = new UserLyrics(
-      {
-        spotifyUsername: currentUsername,
-        sortedLyrics: finalUserResult,
-      },
-      "users"
-    );
-    newUserDoc.save();
+    let finalGlobalResult: [string, number][] = [];
 
-    // check if user exists in global collection already
+    // const newUserDoc = new UserLyrics(
+    //   {
+    //     spotifyUsername: currentUsername,
+    //     sortedLyrics: finalUserResult,
+    //   },
+    //   "users"
+    // );
 
     UserLyrics.findOneAndUpdate(
       { spotifyUsername: currentUsername },
-      newUserDoc, // finalUserResult
-      { upsert: true },
+      { sortedLyrics: finalUserResult },
+      { upsert: true }, // hopefully adds properly
       function (err, doc) {
-        if (err) console.log("error", err);
-        else console.log("doc", doc);
-        // return res.send("Succesfully saved.");
+        // if user doesn't exist yet, add them to collection
+        if (err) {
+          console.log("error was:", err);
+        } else console.log("user doc", doc);
       }
     );
 
-    // i think will need to loop over global values and put into var that mimics [[string, number]]
+    recalculateAndUpdateGlobalCollection(
+      finalGlobalResult,
+      finalUserResult,
+      currentUsername
+    );
 
-    // GlobalLyrics.find({ spotifyUsername: currentUsername })
-    //   .exec()
-    //   .then((response) => {
-    //     console.log(response);
-
-    //     // update if already there
-    //     if (response.length > 0) {
-    //       res.json(response[0][usersArr]["sortedLyrics"]);
-    //     }
-    //     // otherwise add user data to existing arr
-    //     else {
-    //     }
-    //   });
-
-    res.json(finalUserResult);
+    res.json({ user: finalUserResult, global: finalGlobalResult });
   });
 };
