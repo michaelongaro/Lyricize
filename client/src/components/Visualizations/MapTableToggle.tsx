@@ -6,10 +6,14 @@ import useAuth from "../../hooks/useAuth";
 import LyricTable from "./LyricTable";
 import LyricMap from "./LyricMap";
 
-import classes from "./MapTableToggle.module.css";
-import "../../index.css";
 import PersonalGlobalToggle from "../PersonalGlobalToggle/PersonalGlobalToggle";
 import UserData from "../UserData/UserData";
+
+import mapIcon from "../../assets/map.svg";
+import listIcon from "../../assets/list.svg";
+
+import classes from "./MapTableToggle.module.css";
+import "../../index.css";
 
 type Props = {
   code: string;
@@ -32,13 +36,26 @@ function MapTableToggle({ code }: Props) {
   return (
     <div style={{ gap: "1.5rem" }} className={"baseVertFlex"}>
       <PersonalGlobalToggle />
+
       <UserData />
-      <div
-        style={{ gap: "1rem" }}
-        className={`${classes.toggleButtonsContainer} baseFlex`}
-      >
-        <button onClick={() => setMapSelected(true)}>Map</button>
-        <button onClick={() => setMapSelected(false)}>List</button>
+
+      <div className={"buttonContainer baseFlex"}>
+        <button
+          onClick={() => setMapSelected(true)}
+          style={{ gap: ".5rem" }}
+          className={`${mapSelected ? "toggledOn" : ""} baseFlex`}
+        >
+          <img src={mapIcon} className={classes.icon} />
+          Map
+        </button>
+        <button
+          onClick={() => setMapSelected(false)}
+          style={{ gap: ".5rem" }}
+          className={`${!mapSelected ? "toggledOn" : ""} baseFlex`}
+        >
+          <img src={listIcon} className={classes.icon} />
+          List
+        </button>
       </div>
       {mapSelected ? <LyricMap /> : <LyricTable />}
     </div>
