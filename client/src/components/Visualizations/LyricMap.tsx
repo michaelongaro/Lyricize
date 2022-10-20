@@ -1,14 +1,17 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 
 // @ts-ignore
 import BubbleChart from "@weknow/react-bubble-chart-d3";
 import useScreenSize from "use-screen-size";
 
+import LyricLengthFilter from "../LyricLengthFilter/LyricLengthFilter";
+
 import SpotifyContext from "../../context/SpotifyContext";
+
+import LoadingModal from "../LoadingModal/LoadingModal";
 
 import classes from "./LyricMap.module.css";
 import "../../index.css";
-import UserData from "../UserData/UserData";
 
 type Props = {};
 
@@ -17,10 +20,22 @@ function LyricMap({}: Props) {
 
   const spotifyCtx = useContext(SpotifyContext);
 
+  const [userLyricsSortedByLength, setUserLyricsSortedByLength] = useState<
+    [string, number][] | null
+  >(null);
+
+  const [numberOfLyricsToShow, setNumberOfLyricsToShow] = useState<number>(50);
+
+  useEffect(() => {
+    if (userLyricsSortedByLength) {
+      setNumberOfLyricsToShow(50);
+    }
+  }, [userLyricsSortedByLength]);
+
   const transformData = (userLyrics: [string, number][]) => {
     const transformedData = [];
-    for (const lyric of userLyrics.slice(0, 10)) {
-      // take out splice
+    for (const lyric of userLyrics.slice(0, numberOfLyricsToShow)) {
+      // replace slice with real logic (maybe just a context state that stores how many to show)
       transformedData.push({
         label: lyric[0],
         value: lyric[1],
@@ -32,22 +47,57 @@ function LyricMap({}: Props) {
   };
 
   return (
-    <div className={"baseVertFlex"}>
-      {typeof spotifyCtx?.userLyrics === "object" && spotifyCtx.userLyrics ? (
+    <div style={{ gap: "2rem" }} className={"baseVertFlex"}>
+      {spotifyCtx?.currentlySelectedLyrics && (
+        <div style={{ gap: "1rem" }} className={"baseVertFlex"}>
+          <LyricLengthFilter
+            originalUserLyrics={spotifyCtx.currentlySelectedLyrics}
+            setFilteredUserLyrics={setUserLyricsSortedByLength}
+          />
+
+          <div style={{ gap: "1rem" }} className={"baseFlex"}>
+            <button
+              disabled={numberOfLyricsToShow <= 50}
+              onClick={() => {
+                setNumberOfLyricsToShow((prevNum) => prevNum - 50);
+              }}
+              className={"changeShownLyricAmount"}
+            >
+              Show 50 less
+            </button>
+            <button
+              disabled={
+                userLyricsSortedByLength &&
+                numberOfLyricsToShow >= userLyricsSortedByLength.length
+                  ? true
+                  : false
+              }
+              onClick={() => {
+                setNumberOfLyricsToShow((prevNum) => prevNum + 50);
+              }}
+              className={"changeShownLyricAmount"}
+            >
+              Show 50 more
+            </button>
+          </div>
+        </div>
+      )}
+
+      {userLyricsSortedByLength && !spotifyCtx?.refreshLyrics ? (
         <BubbleChart
           graph={{
             zoom: 1,
           }}
-          width={size.width}
-          height={1100}
-          padding={1} // optional value, number that set the padding between bubbles
+          width={size.width * 0.95}
+          height={size.width * 0.95}
+          padding={5} // optional value, number that set the padding between bubbles
           showLegend={false}
-          data={transformData(spotifyCtx.userLyrics)}
+          data={transformData(userLyricsSortedByLength)}
           selectedColor="#737373"
           selectedTextColor="#d9d9d9"
         />
       ) : (
-        <div>No results found</div>
+        <LoadingModal />
       )}
     </div>
   );

@@ -1,10 +1,12 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import SpotifyContext from "../../context/SpotifyContext";
+
+import LyricLengthFilter from "../LyricLengthFilter/LyricLengthFilter";
+
+import LoadingModal from "../LoadingModal/LoadingModal";
 
 import classes from "./LyricTable.module.css";
 import "../../index.css";
-import UserData from "../UserData/UserData";
-import LyricLengthFilter from "../LyricLengthFilter/LyricLengthFilter";
 
 type RowProps = {
   index: number;
@@ -43,6 +45,8 @@ function LyricTable({}: Props) {
     [string, number][] | null
   >(null);
 
+  const [numberOfLyricsToShow, setNumberOfLyricsToShow] = useState<number>(50);
+
   useEffect(() => {
     console.log(
       "typeof is now",
@@ -54,23 +58,40 @@ function LyricTable({}: Props) {
   }, [userLyricsSortedByLength]);
 
   useEffect(() => {
-    if (typeof spotifyCtx?.userLyrics === "object" && spotifyCtx.userLyrics) {
+    if (spotifyCtx?.currentlySelectedLyrics) {
       setUserLyricsSortedByLength(spotifyCtx.userLyrics);
     }
+  }, [spotifyCtx?.currentlySelectedLyrics]);
 
-    // need to have toggle context state for whether to show user/global data
-  }, [spotifyCtx?.userLyrics]);
+  useEffect(() => {
+    const scrollHandler = () => {
+      if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+        if (
+          userLyricsSortedByLength &&
+          numberOfLyricsToShow < userLyricsSortedByLength.length
+        ) {
+          setNumberOfLyricsToShow((prevNum) => prevNum + 50);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", scrollHandler);
+
+    return () => {
+      window.removeEventListener("scroll", scrollHandler);
+    };
+  }, [userLyricsSortedByLength, numberOfLyricsToShow]);
 
   return (
     <div className={`${classes.headerTableContainer} baseVertFlex`}>
-      {typeof spotifyCtx?.userLyrics === "object" && spotifyCtx?.userLyrics && (
+      {spotifyCtx?.currentlySelectedLyrics && (
         <LyricLengthFilter
-          originalUserLyrics={spotifyCtx.userLyrics}
+          originalUserLyrics={spotifyCtx.currentlySelectedLyrics}
           setFilteredUserLyrics={setUserLyricsSortedByLength}
         />
       )}
 
-      {userLyricsSortedByLength ? (
+      {userLyricsSortedByLength && !spotifyCtx?.refreshLyrics ? (
         <div style={{ borderRadius: ".75rem" }}>
           <table className={classes.table}>
             <thead className={`${classes.row} ${classes.legendRow}`}>
@@ -83,7 +104,7 @@ function LyricTable({}: Props) {
 
             <tbody>
               {userLyricsSortedByLength
-                .slice(0, 10)
+                .slice(0, numberOfLyricsToShow)
                 .map((elem: [string, number], i: number) => {
                   return (
                     <Row
@@ -98,7 +119,7 @@ function LyricTable({}: Props) {
           </table>
         </div>
       ) : (
-        <div>No results found</div>
+        <LoadingModal />
       )}
     </div>
   );
