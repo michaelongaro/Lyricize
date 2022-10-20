@@ -5,4 +5,17 @@
   border-radius: 5rem;
   background-color: #1DB954;
   cursor: pointer;
+
+  transition: all 150ms;
+}
+
+.loginButton:hover {
+  scale: 1.05;
+  filter: brightness(1.05);
+}
+
+.loginButton:active {
+  scale: .99;
+  transform: translateY(1px);
+  filter: brightness(.95);
 }
