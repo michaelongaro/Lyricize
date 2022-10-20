@@ -9,9 +9,17 @@ const userSchema = new mongoose.Schema({
   ],
 });
 
-const allUsersSchema = new mongoose.Schema({
-  usersArr: [userSchema],
-});
+const allUsersSchema = new mongoose.Schema(
+  {
+    // usersArr: [userSchema],
+    sortedLyrics: [
+      {
+        type: Array,
+      },
+    ],
+  },
+  { collection: "global" }
+);
 
 export const UserLyrics = mongoose.model("users", userSchema);
 export const GlobalLyrics = mongoose.model("global", allUsersSchema);
