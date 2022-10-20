@@ -1,7 +1,25 @@
-.toggleContain {
-  gap: 1.5rem;
+.logo {
+  position: absolute;
+  left: 1%;
+  top: 1%;
+  font-size: 2em;
+  color: rgb(204, 204, 204);
 }
 
-.toggleContain button {}
+.toggleButton {
+  padding: 1.5rem;
+  gap: .5rem;
+}
 
-/* prob just make non selected one be lower opacity */
+.icon {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+@media (max-width: 900px) {
+  .logo {
+    position: relative;
+    top: auto;
+    left: auto;
+  }
+}
