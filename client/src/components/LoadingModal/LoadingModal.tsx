@@ -15,12 +15,18 @@ function LoadingModal({}: Props) {
     useState<string>("");
 
   useEffect(() => {
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
+  useEffect(() => {
     if (spotifyCtx) {
       if (spotifyCtx.refreshLyrics && spotifyCtx.totalLikedSongs) {
         // it takes roughly .6 seconds to fetch lyrics for each song
         setTotalEstimatedTime(spotifyCtx.totalLikedSongs * 0.6);
-      } else {
-        setTotalEstimatedTime(3);
       }
     }
   }, [spotifyCtx?.refreshLyrics, spotifyCtx?.totalLikedSongs]);
@@ -41,37 +47,45 @@ function LoadingModal({}: Props) {
 
   const getTimeRemaining = (): string => {
     if (totalEstimatedTime) {
-      const minutes =
-        ((totalEstimatedTime - (totalEstimatedTime % 60)) / 60) % 60;
-      const seconds = totalEstimatedTime % 60;
+      const minutes = Math.floor(
+        ((totalEstimatedTime - (totalEstimatedTime % 60)) / 60) % 60
+      );
+      const seconds = Math.floor(totalEstimatedTime % 60);
 
-      return `${minutes}:${seconds}`;
+      const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+      const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+
+      return `${formattedMinutes}:${formattedSeconds}`;
     }
 
     return "00:00";
   };
 
   return (
-    <div className={`${classes.modalContainer} baseVertFlex`}>
-      <div>Fetching lyrics...</div>
-      <div className={classes.parentLoader}>
-        <div className={classes.loader}>
-          <svg className={classes.circle} viewBox="25 25 50 50">
-            <circle
-              className={classes.loaderPath}
-              cx="50"
-              cy="50"
-              r="20"
-              fill="none"
-              stroke="#70c542"
-              strokeWidth="2"
-            />
-          </svg>
+    <div className={`${classes.modalBackground} baseFlex`}>
+      <div className={`${classes.modalContainer} baseVertFlex`}>
+        <div>Fetching lyrics...</div>
+        <div className={classes.parentLoader}>
+          <div className={classes.loader}>
+            <svg className={classes.circle} viewBox="25 25 50 50">
+              <circle
+                className={classes.loaderPath}
+                cx="50"
+                cy="50"
+                r="20"
+                fill="none"
+                stroke="#70c542"
+                strokeWidth="2"
+              />
+            </svg>
+          </div>
         </div>
-      </div>
-      <div style={{ gap: ".5rem" }} className={"baseVertFlex"}>
-        <div>estimated time remaining:</div>
-        <div>{estimatedTimeRemaining}</div>
+        {estimatedTimeRemaining && (
+          <div style={{ gap: ".5rem" }} className={"baseVertFlex"}>
+            <div>estimated time remaining:</div>
+            <div>{estimatedTimeRemaining}</div>
+          </div>
+        )}
       </div>
     </div>
   );
