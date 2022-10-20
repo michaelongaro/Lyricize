@@ -1,30 +1,47 @@
-import { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import axios from "axios";
 
-export default function useSendSongsToBackend(songs: string[]) {
-  // const [accessToken, setAccessToken] = useState();
-  // const [refreshToken, setRefreshToken] = useState();
-  // const [expiresIn, setExpiresIn] = useState();
-  const [sortedLyrics, setSortedLyrics] = useState();
-
+export default function useSendSongsToBackend(
+  currentUsername: string | null,
+  userSongList: string[] | null,
+  totalLikedSongs: number | null,
+  setUserLyrics: React.Dispatch<
+    React.SetStateAction<[string, number][] | null>
+  >,
+  setGlobalLyrics: React.Dispatch<
+    React.SetStateAction<[string, number][] | null>
+  >,
+  setRefreshLyrics: React.Dispatch<React.SetStateAction<boolean>>
+) {
   useEffect(() => {
-    axios
-      .post("http://localhost:5001/user-songs", {
-        songs,
-      })
-      .then((res) => {
-        // setAccessToken(res.data.accessToken);
-        // setRefreshToken(res.data.refreshToken);
-        // setExpiresIn(res.data.expiresIn);
-        // window.history.pushState({}, "", "/");
-        // setSortedLyrics();
-      })
-      .catch(() => {
-        // workaround for weird ts interaction
-        (window as Window).location = "/";
-      });
-  }, [songs]);
-
-  return sortedLyrics;
+    if (
+      currentUsername &&
+      userSongList &&
+      userSongList.length === totalLikedSongs
+    ) {
+      console.log(
+        "posting with",
+        currentUsername,
+        userSongList,
+        userSongList.length,
+        totalLikedSongs
+      );
+      // debugger;
+      axios
+        .post("http://localhost:5001/user-songs", {
+          currentUsername,
+          userSongList,
+        })
+        .then((res) => {
+          setUserLyrics(res.data.user);
+          setGlobalLyrics(res.data.global);
+          setRefreshLyrics(false);
+        })
+        .catch(() => {
+          // workaround for weird ts interaction
+          (window as Window).location = "/";
+        });
+    }
+  }, [userSongList, totalLikedSongs, currentUsername]);
 }

@@ -4,9 +4,13 @@ import axios from "axios";
 export const useFetchUserLyrics = (
   currentUsername: string | null,
   setUserLyrics: React.Dispatch<
-    React.SetStateAction<boolean | [string, number][] | null>
-  >
-): [string, number][] | boolean => {
+    React.SetStateAction<[string, number][] | null>
+  >,
+  setGlobalLyrics: React.Dispatch<
+    React.SetStateAction<[string, number][] | null>
+  >,
+  setRefreshLyrics: React.Dispatch<React.SetStateAction<boolean>>
+) => {
   console.log("inside hook:", currentUsername);
 
   useEffect(() => {
@@ -18,7 +22,12 @@ export const useFetchUserLyrics = (
         .then((res) => {
           console.log("data received was", res);
 
-          setUserLyrics(res.data.length === 0 ? false : res.data);
+          if (res.data.user.length && res.data.global.length) {
+            setUserLyrics(res.data.user);
+            setGlobalLyrics(res.data.global);
+          } else {
+            setRefreshLyrics(true);
+          }
         })
         .catch(() => {
           // workaround for weird ts interaction
@@ -26,6 +35,4 @@ export const useFetchUserLyrics = (
         });
     }
   }, [currentUsername]);
-
-  return false;
 };
