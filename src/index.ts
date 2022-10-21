@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import * as dotenv from "dotenv";
 dotenv.config();
+import * as path from "path";
 
 import loginRoute from "./routes/login.js";
 
@@ -24,9 +25,15 @@ app.use("/refresh", refresh);
 app.use("/user-songs", getLyrics);
 app.use("/is-user-in-database", isUserInDatabase);
 
-const CONNECTION_URL =
-  "mongodb+srv://mongaro:LJxNYsUShm5p05gB@cluster0.tj1cbrr.mongodb.net/lyrics?retryWrites=true&w=majority";
+const CONNECTION_URL = process.env.MONGO_URI!;
 const PORT = process.env.PORT || 5001;
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 mongoose
   .connect(CONNECTION_URL)

@@ -1,0 +1,16 @@
+import React from "react";
+import Login from "./Login";
+import classes from "./Hero.module.css";
+import "../../index.css";
+function Hero({}) {
+    return (<div className={`${classes.hero} baseVertFlex`}>
+      <div style={{ fontSize: "3em" }}>Lyricize</div>
+      <div>
+        visualize the most popular lyrics from your{" "}
+        <span className={classes.spotifyText}>Spotify</span>
+      </div>
+
+      <Login />
+    </div>);
+}
+export default Hero;
