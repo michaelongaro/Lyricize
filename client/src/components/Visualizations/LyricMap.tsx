@@ -2,7 +2,6 @@ import { useContext, useState, useEffect } from "react";
 
 // @ts-ignore
 import BubbleChart from "@weknow/react-bubble-chart-d3";
-import useScreenSize from "use-screen-size";
 
 import LyricLengthFilter from "../LyricLengthFilter/LyricLengthFilter";
 
@@ -16,8 +15,6 @@ import "../../index.css";
 type Props = {};
 
 function LyricMap({}: Props) {
-  const size = useScreenSize();
-
   const spotifyCtx = useContext(SpotifyContext);
 
   const [userLyricsSortedByLength, setUserLyricsSortedByLength] = useState<
@@ -26,11 +23,27 @@ function LyricMap({}: Props) {
 
   const [numberOfLyricsToShow, setNumberOfLyricsToShow] = useState<number>(50);
 
+  const [currentScreenWidth, setCurrentScreenWidth] = useState<number>(0);
+
   useEffect(() => {
     if (userLyricsSortedByLength) {
       setNumberOfLyricsToShow(50);
     }
   }, [userLyricsSortedByLength]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setCurrentScreenWidth(window.innerWidth);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const transformData = (userLyrics: [string, number][]) => {
     const transformedData = [];
@@ -88,8 +101,8 @@ function LyricMap({}: Props) {
           graph={{
             zoom: 1,
           }}
-          width={size.width * 0.95}
-          height={size.width * 0.95}
+          width={currentScreenWidth * 0.95}
+          height={currentScreenWidth * 0.95}
           padding={5} // optional value, number that set the padding between bubbles
           showLegend={false}
           data={transformData(userLyricsSortedByLength)}
