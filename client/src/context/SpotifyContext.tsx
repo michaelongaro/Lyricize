@@ -188,5 +188,3 @@ export function SpotifyProvider(props: any) {
 }
 
 export default SpotifyContext;
-
-// use built-in genius lyrics filter
