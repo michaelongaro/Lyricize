@@ -34,7 +34,7 @@ function LoadingModal({}: Props) {
   useEffect(() => {
     let interval: number;
     if (totalEstimatedTime) {
-      interval = setInterval(() => {
+      interval = window.setInterval(() => {
         setEstimatedTimeRemaining(getTimeRemaining());
         setTotalEstimatedTime((prevTime) => prevTime - 1);
       }, 1000);
