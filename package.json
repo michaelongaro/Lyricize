@@ -9,7 +9,7 @@
     "dev": "nodemon src/index.ts",
     "build": "tsc -p .",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package tsc"
   },
   "keywords": [],
   "author": "",
