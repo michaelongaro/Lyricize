@@ -5,6 +5,8 @@ import { GlobalLyrics, UserLyrics } from "../models/lyrics.js";
 export const isUserInDatabase = async (req: Request, res: Response) => {
   const currentUsername = req.body.currentUsername;
 
+  console.log("at least made it this far before timing out"); // push to heroku and try this in the morning
+
   UserLyrics.find({ spotifyUsername: currentUsername })
     .exec()
     .then((userResponse) => {

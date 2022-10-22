@@ -29,7 +29,7 @@ export default function useSendSongsToBackend(
       );
       // debugger;
       axios
-        .post("https://fierce-mesa-30544.herokuapp.com/user-songs", {
+        .post("/user-songs", {
           currentUsername,
           userSongList,
         })

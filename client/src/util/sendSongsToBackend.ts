@@ -8,7 +8,7 @@ export default function sendSongsToBackend(
   // const [sortedLyrics, setSortedLyrics] = useState();
 
   axios
-    .post("https://fierce-mesa-30544.herokuapp.com/user-songs", {
+    .post("/user-songs", {
       currentUsername,
       songs,
     })
