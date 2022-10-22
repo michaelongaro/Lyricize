@@ -30,7 +30,7 @@ app.use("/is-user-in-database", isUserInDatabase);
 const CONNECTION_URL = process.env.MONGO_URI!;
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "client/dist")));
+  app.use(express.static("client/dist"));
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
   });
