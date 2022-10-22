@@ -16,7 +16,7 @@ export const useFetchUserLyrics = (
   useEffect(() => {
     if (currentUsername) {
       axios
-        .post("http://localhost:5001/is-user-in-database", {
+        .post("https://fierce-mesa-30544.herokuapp.com/is-user-in-database", {
           currentUsername,
         })
         .then((res) => {

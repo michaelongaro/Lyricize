@@ -8,7 +8,7 @@ import "../../index.css";
 type Props = {};
 
 const AUTH_URL =
-  "https://accounts.spotify.com/authorize?client_id=013a8341148c440caa3fe56fa4742c7c&response_type=code&redirect_uri=http://localhost:5000&scope=user-library-read%20user-read-email%20user-read-private";
+  "https://accounts.spotify.com/authorize?client_id=013a8341148c440caa3fe56fa4742c7c&response_type=code&redirect_uri=https://fierce-mesa-30544.herokuapp.com/&scope=user-library-read%20user-read-email%20user-read-private";
 
 function Login({}: Props) {
   return (

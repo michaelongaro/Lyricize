@@ -9,7 +9,7 @@ export default function useAuth(code: string) {
 
   useEffect(() => {
     axios
-      .post("http://localhost:5001/login", {
+      .post("https://fierce-mesa-30544.herokuapp.com/login", {
         code,
       })
       .then((res) => {
@@ -29,7 +29,7 @@ export default function useAuth(code: string) {
 
     const interval = setInterval(() => {
       axios
-        .post("http://localhost:5001/refresh", {
+        .post("https://fierce-mesa-30544.herokuapp.com/refresh", {
           refreshToken,
         })
         .then((res) => {
