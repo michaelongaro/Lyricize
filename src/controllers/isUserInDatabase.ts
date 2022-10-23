@@ -21,6 +21,11 @@ export const isUserInDatabase = async (req: Request, res: Response) => {
               });
             }
           });
+      } else {
+        res.json({
+          user: [],
+          global: [],
+        });
       }
     });
 };
