@@ -62,7 +62,7 @@ function LyricMap({}: Props) {
   return (
     <div style={{ gap: "2rem" }} className={"baseVertFlex"}>
       {spotifyCtx?.currentlySelectedLyrics && (
-        <div style={{ gap: "1rem" }} className={"baseVertFlex"}>
+        <div style={{ gap: "1.5rem" }} className={"baseVertFlex"}>
           <LyricLengthFilter
             originalUserLyrics={spotifyCtx.currentlySelectedLyrics}
             setFilteredUserLyrics={setUserLyricsSortedByLength}
