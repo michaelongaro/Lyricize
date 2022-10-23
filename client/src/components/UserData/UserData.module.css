@@ -3,14 +3,10 @@
   margin-top: 2.5rem;
 }
 
-.dataContainer img,
-.psuedoPFP {
+.pfpContainer {
   border-radius: 50%;
   width: 4.5rem;
   height: 4.5rem;
-}
-
-.pseudoPFP {
   background-color: rgb(204, 204, 204);
 }
 
