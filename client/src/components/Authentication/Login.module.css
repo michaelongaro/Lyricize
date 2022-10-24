@@ -9,6 +9,11 @@
   transition: all 150ms;
 }
 
+.loginButton img {
+  width: 25px;
+  height: 25px;
+}
+
 .loginButton:hover {
   scale: 1.05;
   filter: brightness(1.05);

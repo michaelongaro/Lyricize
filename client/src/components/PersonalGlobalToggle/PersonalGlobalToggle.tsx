@@ -9,6 +9,7 @@ import worldIcon from "../../assets/world.svg";
 
 import classes from "./PersonalGlobalToggle.module.css";
 import "../../index.css";
+import Logout from "../Authentication/Logout";
 
 type Props = {};
 
@@ -21,6 +22,7 @@ function PersonalGlobalToggle({}: Props) {
       className={"buttonContainer baseVertFlex"}
     >
       <div className={classes.logo}>Lyricize</div>
+      <Logout />
       <div className={"baseFlex"}>
         <button
           onClick={() => spotifyCtx?.setShowUserLyrics(true)}

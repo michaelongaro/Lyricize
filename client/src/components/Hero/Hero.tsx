@@ -1,6 +1,6 @@
 import React from "react";
 
-import Login from "./Login";
+import Login from "../Authentication/Login";
 
 import classes from "./Hero.module.css";
 import "../../index.css";

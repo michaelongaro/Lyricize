@@ -1,6 +1,6 @@
 import React from "react";
 
-import spotifyIcon from "../../assets/spotify.svg";
+import spotifyIcon from "../../assets/spotify.png";
 
 import classes from "./Login.module.css";
 import "../../index.css";
@@ -13,7 +13,7 @@ const AUTH_URL =
 function Login({}: Props) {
   return (
     <a
-      style={{ gap: "1rem" }}
+      style={{ gap: ".75rem" }}
       className={`${classes.loginButton} baseFlex`}
       href={AUTH_URL}
     >
