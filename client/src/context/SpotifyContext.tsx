@@ -62,16 +62,21 @@ export function SpotifyProvider(props: any) {
     if (accessToken) {
       spotifyApi.setAccessToken(accessToken); // looks like this is fine to stay up here
 
-      spotifyApi.getMe().then((res) => {
-        const imageResults = res.body.images;
-        if (imageResults && imageResults.length > 0) {
-          setCurrentPFP(imageResults[0].url);
-        } else {
-          // make it falsey in some way
-          setCurrentPFP("User has no PFP");
-        }
-        setCurrentUsername(res.body.id);
-      });
+      spotifyApi
+        .getMe()
+        .then((res) => {
+          const imageResults = res.body.images;
+          if (imageResults && imageResults.length > 0) {
+            setCurrentPFP(imageResults[0].url);
+          } else {
+            // make it falsey in some way
+            setCurrentPFP("User has no PFP");
+          }
+          setCurrentUsername(res.body.id);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, [accessToken]);
 
