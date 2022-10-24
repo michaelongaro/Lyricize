@@ -1,0 +1,17 @@
+.logOutButton {
+  position: absolute;
+  top: 1%;
+  right: 1%;
+
+  padding: 1.25rem;
+  background-color: hsl(0, 0%, 45%);
+
+  cursor: pointer;
+
+  transition: all 150ms;
+}
+
+.logOutButton:hover {
+  background-color: hsl(0, 0%, 75%);
+  color: black;
+}
