@@ -47,21 +47,23 @@ function LyricTable({}: Props) {
 
   const [numberOfLyricsToShow, setNumberOfLyricsToShow] = useState<number>(50);
 
-  useEffect(() => {
-    console.log(
-      "typeof is now",
-      typeof userLyricsSortedByLength,
-      " and length is now:",
-      userLyricsSortedByLength?.length,
-      userLyricsSortedByLength
-    );
-  }, [userLyricsSortedByLength]);
+  // useEffect(() => {
+  //   console.log(
+  //     "typeof is now",
+  //     typeof userLyricsSortedByLength,
+  //     " and length is now:",
+  //     userLyricsSortedByLength?.length,
+  //     userLyricsSortedByLength
+  //   );
+  // }, [userLyricsSortedByLength]);
 
-  useEffect(() => {
-    if (spotifyCtx?.currentlySelectedLyrics) {
-      setUserLyricsSortedByLength(spotifyCtx.userLyrics);
-    }
-  }, [spotifyCtx?.currentlySelectedLyrics]);
+  // useEffect(() => {
+  //   if (spotifyCtx?.currentlySelectedLyrics) {
+  //     console.log("user?", spotifyCtx.currentlySelectedLyrics.length);
+
+  //     setUserLyricsSortedByLength(spotifyCtx.userLyrics);
+  //   }
+  // }, [spotifyCtx?.currentlySelectedLyrics]);
 
   useEffect(() => {
     const scrollHandler = () => {
