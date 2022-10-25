@@ -1,10 +1,10 @@
 # Lyricize
 
-live site: [Lyricize](https://fierce-mesa-30544.herokuapp.com/).
+live site: [Lyricize](https://lyricize-app.herokuapp.com/).
 
 ## Description
 
-This is a MERN app that parses, sorts, and visualizes the top lyrics of your Spotify account's liked songs. I used the [Spotify API](https://developer.spotify.com/documentation/web-api/) along with 
+This is a MERN app that parses, sorts, and visualizes the top lyrics of your Spotify account's liked songs. I used the [Spotify API](https://developer.spotify.com/documentation/web-api/) along with
 [spotify-web-api-node](https://github.com/thelinmichael/spotify-web-api-node) to access all necessary user authentication/data and used [genius-lyrics](https://www.npmjs.com/package/genius-lyrics) to fetch the lyrics.
 All information is stored on an instance of [MongoDB Atlas](https://www.mongodb.com/atlas/database). Finally, the responsive bubble visualizations come from [@weknow/react-bubble-chart-d3](https://www.npmjs.com/package/@weknow/react-bubble-chart-d3).
 
