@@ -3,7 +3,8 @@
   margin-top: 2.5rem;
 }
 
-.pfpContainer {
+.pfpContainer,
+.pfpContainer>img {
   border-radius: 50%;
   width: 4.5rem;
   height: 4.5rem;
