@@ -20,14 +20,6 @@ export default function useSendSongsToBackend(
       userSongList &&
       userSongList.length === totalLikedSongs
     ) {
-      console.log(
-        "posting with",
-        currentUsername,
-        userSongList,
-        userSongList.length,
-        totalLikedSongs
-      );
-      // debugger;
       axios
         .post("/user-songs", {
           currentUsername,

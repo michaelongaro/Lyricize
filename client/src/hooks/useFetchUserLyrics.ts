@@ -11,8 +11,6 @@ export const useFetchUserLyrics = (
   >,
   setRefreshLyrics: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
-  console.log("inside hook:", currentUsername);
-
   useEffect(() => {
     if (currentUsername) {
       axios
@@ -20,8 +18,6 @@ export const useFetchUserLyrics = (
           currentUsername,
         })
         .then((res) => {
-          console.log("data received was", res);
-
           if (res.data.user.length && res.data.global.length) {
             setUserLyrics(res.data.user);
             setGlobalLyrics(res.data.global);
