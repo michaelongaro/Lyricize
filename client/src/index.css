@@ -83,7 +83,7 @@ ul {
 .buttonContainer button,
 .changeShownLyricAmount {
   border: 1px solid rgb(59, 59, 59);
-  padding: .35rem .75rem;
+  padding: .6rem .75rem;
   cursor: pointer;
   transition: all 100ms;
 }
@@ -101,10 +101,15 @@ ul {
 }
 
 .toggledOn {
-  box-shadow: inset 0px 1px 3px 1px hsl(0deg 0% 0% / 85%);
+  box-shadow: inset 0px 2px 4px 2px hsl(0deg 0% 0% / 85%);
 }
 
-circle {
+
+g>text {
+  pointer-events: none;
+}
+
+.node>* {
   transition: all 100ms;
 }
 
