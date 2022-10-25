@@ -12,8 +12,6 @@ function LyricLengthFilter({
   originalUserLyrics,
   setFilteredUserLyrics,
 }: Props) {
-  console.log("OG lyrics are:", originalUserLyrics);
-
   const [buttonClickedStates, setButtonClickedStates] = useState<boolean[]>([
     false,
     false,
@@ -24,11 +22,7 @@ function LyricLengthFilter({
 
   const filterLyricsByLength = (length: number) => {
     if (originalUserLyrics && typeof originalUserLyrics === "object") {
-      console.log("entered with", length, originalUserLyrics.length);
-
       if (length === -1) {
-        console.log(originalUserLyrics);
-
         setFilteredUserLyrics(originalUserLyrics);
         // setFilteredUserLyrics([originalUserLyrics]);
       } else if (length > 6) {
@@ -61,6 +55,8 @@ function LyricLengthFilter({
 
   useEffect(() => {
     if (originalUserLyrics) {
+      setButtonClickedStates([false, false, false, false, false]);
+
       filterLyricsByLength(-1);
     }
   }, [originalUserLyrics]);
