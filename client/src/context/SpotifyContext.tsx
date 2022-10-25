@@ -81,7 +81,6 @@ export function SpotifyProvider(props: any) {
   }, [accessToken]);
 
   useEffect(() => {
-    console.log(showUserLyrics, userLyrics, globalLyrics);
     if (showUserLyrics) {
       setCurrentlySelectedLyrics(userLyrics);
     } else {
