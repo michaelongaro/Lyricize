@@ -17,12 +17,14 @@ function PersonalGlobalToggle({}: Props) {
   const spotifyCtx = useContext(SpotifyContext);
 
   return (
-    <div
-      style={{ marginTop: "1rem", gap: "1.5rem" }}
-      className={"buttonContainer baseVertFlex"}
-    >
-      <div className={classes.logo}>Lyricize</div>
-      <Logout />
+    <div className={`${classes.topContainer} buttonContainer`}>
+      <div className={classes.mobileLogoLogoutContainer}>
+        <div className={classes.logo}>Lyricize</div>
+        <Logout />
+      </div>
+      <div className={classes.desktopLogo}>
+        <div className={classes.logo}>Lyricize</div>
+      </div>
       <div className={"baseFlex"}>
         <button
           onClick={() => spotifyCtx?.setShowUserLyrics(true)}
@@ -44,6 +46,9 @@ function PersonalGlobalToggle({}: Props) {
         </button>
 
         <RefreshData />
+      </div>
+      <div className={classes.desktopLogout}>
+        <Logout />
       </div>
     </div>
   );

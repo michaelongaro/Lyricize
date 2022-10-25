@@ -1,25 +1,49 @@
+.topContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.mobileLogoLogoutContainer {
+  display: none;
+}
+
 .logo {
-  position: absolute;
-  left: 1%;
-  top: 1%;
+  margin-left: 2rem;
   font-size: 2em;
   color: rgb(204, 204, 204);
 }
 
 .toggleButton {
   padding: 1.5rem;
-  gap: .5rem;
+  gap: 1rem;
 }
 
 .icon {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
 }
 
 @media (max-width: 900px) {
-  .logo {
-    position: relative;
-    top: auto;
-    left: auto;
+  .topContainer {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .desktopLogo,
+  .desktopLogout {
+    display: none;
+  }
+
+  .mobileLogoLogoutContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 100%;
   }
 }
