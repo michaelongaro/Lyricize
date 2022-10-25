@@ -37,7 +37,7 @@ function MapTableToggle({ code }: Props) {
     <div style={{ gap: "1.5rem" }} className={"baseVertFlex"}>
       <PersonalGlobalToggle />
 
-      <UserData />
+      {spotifyCtx?.showUserLyrics && <UserData />}
 
       <div className={"buttonContainer baseFlex"}>
         <button
