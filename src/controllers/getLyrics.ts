@@ -30,21 +30,28 @@ const sanitizeLyrics = (lyrics: string): string => {
 
 const appendLyricToArray = (
   arr: [string, number][],
-  lyric: string
+  lyric: string,
+  occurances?: number
 ): [string, number][] => {
-  if (arr.length === 0) {
+  if (arr.length === 0 && !occurances) {
     arr.push([lyric, 1]);
     return arr;
   }
 
+  // could just be .contains(lyric) -> .indexOf(lyric)...
   for (const lyricData of arr) {
     if (lyricData[0] === lyric) {
-      lyricData[1] += 1;
+      lyricData[1] += occurances ?? 1;
       return arr;
     }
   }
 
-  arr.push([lyric, 1]);
+  if (occurances) {
+    arr.push([lyric, occurances]);
+  } else {
+    arr.push([lyric, 1]);
+  }
+
   return arr;
 };
 
@@ -73,36 +80,40 @@ const getOccurancesPerLyric = (lyrics: string): [string, number][] => {
 };
 
 const recalculateAndUpdateGlobalCollection = (
-  updatedTotalUserLyrics: [string, number][],
-  newLyrics: [string, number][],
-  currentUsername: string
+  updatedTotalUserLyrics: [string, number][]
+  // newLyrics: [string, number][],
+  // currentUsername: string
 ) => {
-  updatedTotalUserLyrics = newLyrics;
+  // updatedTotalUserLyrics = newLyrics;
+
+  // @ts-ignore
+  let cominedLyricCount = [];
 
   UserLyrics.find({})
     .exec()
     .then((response) => {
       if (response.length > 0) {
         for (const user of response) {
-          if (user.spotifyUsername !== currentUsername) {
-            for (const lyric of updatedTotalUserLyrics) {
-              updatedTotalUserLyrics = appendLyricToArray(
-                updatedTotalUserLyrics,
-                lyric[0]
-              );
-            }
-          }
+          console.log("user", user);
+          cominedLyricCount.push(user.sortedLyrics);
         }
 
-        // const newGlobalDoc = new GlobalLyrics(
-        //   {
-        //     sortedLyrics: updatedTotalUserLyrics,
-        //   },
-        //   "global"
-        // );
+        // @ts-ignore
+        for (const lyric of cominedLyricCount.flat()) {
+          console.log("lyricpair:", updatedTotalUserLyrics.length);
+
+          updatedTotalUserLyrics = appendLyricToArray(
+            updatedTotalUserLyrics,
+            // @ts-ignore
+            lyric[0],
+            // @ts-ignore
+            lyric[1]
+          );
+        }
+        // console.log(updatedTotalUserLyrics);
 
         GlobalLyrics.findOneAndUpdate(
-          {}, // this theoretically will target everything aka the only doc in there
+          {},
           {
             sortedLyrics: updatedTotalUserLyrics,
           },
@@ -164,14 +175,14 @@ export const getLyrics = async (req: Request, res: Response) => {
       function (err, doc) {
         if (err) {
           console.log("error was:", err);
-        } else console.log("user doc", doc);
+        } else {
+          recalculateAndUpdateGlobalCollection(
+            finalGlobalResult
+            // finalUserResult,
+            // currentUsername
+          );
+        }
       }
-    );
-
-    recalculateAndUpdateGlobalCollection(
-      finalGlobalResult,
-      finalUserResult,
-      currentUsername
     );
 
     res.json({ user: finalUserResult, global: finalGlobalResult });
