@@ -4,7 +4,9 @@ import Genius from "genius-lyrics";
 
 import { UserLyrics, GlobalLyrics } from "../models/lyrics.js";
 
-const Client = new Genius.Client();
+const Client = new Genius.Client(
+  "DdPIOZy9Ks-7AkpKq-Pxn6WpPQ6rmEcgM6_EFCAK_pAX5wMxovOuDkm8PMcB_kAFK3cbEgtYoRWNOSSV5rtlGw"
+);
 
 const sanitizeLyrics = (lyrics: string): string => {
   const chorusMatch = /\[[^\]]*\]/gm;
