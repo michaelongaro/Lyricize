@@ -25,8 +25,8 @@ function LoadingModal({}: Props) {
   useEffect(() => {
     if (spotifyCtx) {
       if (spotifyCtx.refreshLyrics && spotifyCtx.totalLikedSongs) {
-        // it takes roughly .6 seconds to fetch lyrics for each song
-        setTotalEstimatedTime(spotifyCtx.totalLikedSongs * 0.6);
+        // it takes roughly .55 seconds to fetch lyrics for each song
+        setTotalEstimatedTime(spotifyCtx.totalLikedSongs * 0.55);
       }
     }
   }, [spotifyCtx?.refreshLyrics, spotifyCtx?.totalLikedSongs]);
@@ -64,7 +64,12 @@ function LoadingModal({}: Props) {
   return (
     <div className={`${classes.modalBackground} baseFlex`}>
       <div className={`${classes.modalContainer} baseVertFlex`}>
-        <div>Fetching lyrics...</div>
+        <div>
+          Fetching lyrics
+          {spotifyCtx?.totalLikedSongs
+            ? `for ${spotifyCtx?.totalLikedSongs} songs`
+            : "..."}
+        </div>
         <div className={classes.parentLoader}>
           <div className={classes.loader}>
             <svg className={classes.circle} viewBox="25 25 50 50">
