@@ -39,7 +39,12 @@ function MapTableToggle({ code }: Props) {
 
       {spotifyCtx?.showUserLyrics && <UserData />}
 
-      <div className={"buttonContainer baseFlex"}>
+      <div
+        style={{
+          marginTop: spotifyCtx?.showUserLyrics ? 0 : "2rem",
+        }}
+        className={"buttonContainer baseFlex"}
+      >
         <button
           onClick={() => setMapSelected(true)}
           style={{ gap: ".5rem" }}
