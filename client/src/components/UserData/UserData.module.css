@@ -3,12 +3,17 @@
   margin-top: 2.5rem;
 }
 
-.pfpContainer,
-.pfpContainer>img {
+.pfpContainer {
   border-radius: 50%;
   width: 4.5rem;
   height: 4.5rem;
   background-color: rgb(204, 204, 204);
+}
+
+.fallbackPFP {
+  width: 50%;
+  height: 50%;
+  border-radius: 0%;
 }
 
 .username {

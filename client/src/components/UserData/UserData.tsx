@@ -38,7 +38,7 @@ function UserData({}: Props) {
           )
         : spotifyCtx.currentUsername && (
             <div className={`${classes.pfpContainer} baseFlex`}>
-              <img style={{ width: "50%" }} src={defaultUserImage} />
+              <img className={classes.fallbackPFP} src={defaultUserImage} />
             </div>
           )}
 
