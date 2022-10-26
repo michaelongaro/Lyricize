@@ -11,7 +11,7 @@ function Hero({}: Props) {
   return (
     <div className={`${classes.hero} baseVertFlex`}>
       <div style={{ fontSize: "3em" }}>Lyricize</div>
-      <div>
+      <div style={{ textAlign: "center" }}>
         visualize the most popular lyrics from your{" "}
         <span className={classes.spotifyText}>Spotify</span>
       </div>
