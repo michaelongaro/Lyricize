@@ -67,8 +67,8 @@ function LoadingModal({}: Props) {
         <div>
           Fetching lyrics
           {spotifyCtx?.totalLikedSongs
-            ? `for ${spotifyCtx?.totalLikedSongs} songs`
-            : "..."}
+            ? ` for ${spotifyCtx?.totalLikedSongs} songs`
+            : " ..."}
         </div>
         <div className={classes.parentLoader}>
           <div className={classes.loader}>
