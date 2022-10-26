@@ -81,11 +81,7 @@ const getOccurancesPerLyric = (lyrics: string): [string, number][] => {
 
 const recalculateAndUpdateGlobalCollection = (
   updatedTotalUserLyrics: [string, number][]
-  // newLyrics: [string, number][],
-  // currentUsername: string
 ) => {
-  // updatedTotalUserLyrics = newLyrics;
-
   // @ts-ignore
   let cominedLyricCount = [];
 
@@ -110,7 +106,6 @@ const recalculateAndUpdateGlobalCollection = (
             lyric[1]
           );
         }
-        // console.log(updatedTotalUserLyrics);
 
         GlobalLyrics.findOneAndUpdate(
           {},
@@ -141,9 +136,6 @@ export const getLyrics = async (req: Request, res: Response) => {
 
     if (searches && searches.length !== 0) {
       promises.push(searches[0].lyrics());
-      promises.push(searches[0].lyrics());
-      promises.push(searches[0].lyrics());
-      promises.push(searches[0].lyrics());
     }
   }
 
@@ -168,14 +160,6 @@ export const getLyrics = async (req: Request, res: Response) => {
 
     let finalGlobalResult: [string, number][] = [];
 
-    // const newUserDoc = new UserLyrics(
-    //   {
-    //     spotifyUsername: currentUsername,
-    //     sortedLyrics: finalUserResult,
-    //   },
-    //   "users"
-    // );
-
     UserLyrics.findOneAndUpdate(
       { spotifyUsername: currentUsername },
       { sortedLyrics: finalUserResult },
@@ -184,11 +168,7 @@ export const getLyrics = async (req: Request, res: Response) => {
         if (err) {
           console.log("error was:", err);
         } else {
-          recalculateAndUpdateGlobalCollection(
-            finalGlobalResult
-            // finalUserResult,
-            // currentUsername
-          );
+          recalculateAndUpdateGlobalCollection(finalGlobalResult);
         }
       }
     );
