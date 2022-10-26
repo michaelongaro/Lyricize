@@ -96,8 +96,6 @@ const recalculateAndUpdateGlobalCollection = (
 
         // @ts-ignore
         for (const lyric of cominedLyricCount.flat()) {
-          // BELOW FUNC, need to still sort words by occurances
-
           updatedTotalUserLyrics = appendLyricToArray(
             updatedTotalUserLyrics,
             // @ts-ignore
@@ -110,7 +108,7 @@ const recalculateAndUpdateGlobalCollection = (
         GlobalLyrics.findOneAndUpdate(
           {},
           {
-            sortedLyrics: updatedTotalUserLyrics,
+            sortedLyrics: sortLyricsByOccurances(updatedTotalUserLyrics),
           },
           { upsert: true },
           function (err, doc) {
