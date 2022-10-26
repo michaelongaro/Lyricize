@@ -141,10 +141,18 @@ export const getLyrics = async (req: Request, res: Response) => {
 
     if (searches && searches.length !== 0) {
       promises.push(searches[0].lyrics());
+      promises.push(searches[0].lyrics());
+      promises.push(searches[0].lyrics());
+      promises.push(searches[0].lyrics());
     }
   }
 
   Promise.allSettled(promises).then((results) => {
+    console.log(
+      "Promise.allSettled has completed, result length:",
+      results.length
+    );
+
     let formattedResults = "";
     for (const result of results) {
       // @ts-ignore
