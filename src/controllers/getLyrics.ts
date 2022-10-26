@@ -14,7 +14,8 @@ const sanitizeLyrics = (lyrics: string): string => {
   lyrics = lyrics.replaceAll(chorusMatch, " ");
   lyrics = lyrics.replaceAll(punctuationMatch, " ");
 
-  lyrics = lyrics.trim().replaceAll(/\s+/g, " "); // turns all spaces (of any length) into just one space
+  // turns all spaces (of any length) into just one space
+  lyrics = lyrics.trim().replaceAll(/\s+/g, " ");
 
   lyrics = lyrics
     .split(" ")
@@ -90,13 +91,12 @@ const recalculateAndUpdateGlobalCollection = (
     .then((response) => {
       if (response.length > 0) {
         for (const user of response) {
-          console.log("user", user);
           cominedLyricCount.push(user.sortedLyrics);
         }
 
         // @ts-ignore
         for (const lyric of cominedLyricCount.flat()) {
-          console.log("lyricpair:", updatedTotalUserLyrics.length);
+          // BELOW FUNC, need to still sort words by occurances
 
           updatedTotalUserLyrics = appendLyricToArray(
             updatedTotalUserLyrics,
@@ -115,7 +115,7 @@ const recalculateAndUpdateGlobalCollection = (
           { upsert: true },
           function (err, doc) {
             if (err) console.log("failed", err);
-            else console.log("global doc", doc);
+            // else console.log("global doc", doc);
           }
         );
       }
@@ -126,7 +126,7 @@ export const getLyrics = async (req: Request, res: Response) => {
   const currentUsername = req.body.currentUsername;
   const songs = req.body.userSongList;
 
-  const promises = [];
+  const promises: Promise<string>[] = [];
 
   for (const song of songs) {
     const songName = song.split(",")[0];
