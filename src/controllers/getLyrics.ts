@@ -2,122 +2,14 @@ import { Request, Response } from "express";
 
 import Genius from "genius-lyrics";
 
-import { UserLyrics, GlobalLyrics } from "../models/lyrics.js";
+import { UserLyrics } from "../models/lyrics.js";
+import getOccurancesPerLyric from "../util/getOccurancesPerLyrics.js";
+import recalculateAndUpdateGlobalCollection from "../util/recalculateAndUpdateGlobalCollection.js";
+
+import sanitizeLyrics from "../util/sanitizeLyrics.js";
+import sortLyricsByOccurances from "../util/sortLyricsByOccurances.js";
 
 const Client = new Genius.Client();
-
-const sanitizeLyrics = (lyrics: string): string => {
-  const chorusMatch = /\[[^\]]*\]/gm;
-  const punctuationMatch = /[.,()!{}|?;:"]/gm;
-
-  lyrics = lyrics.replaceAll("\n", " ");
-  lyrics = lyrics.replaceAll(chorusMatch, " ");
-  lyrics = lyrics.replaceAll(punctuationMatch, " ");
-
-  // turns all spaces (of any length) into just one space
-  lyrics = lyrics.trim().replaceAll(/\s+/g, " ");
-
-  lyrics = lyrics
-    .split(" ")
-    .map((word) => {
-      if (word) {
-        return word[0].toUpperCase() + word.substring(1).toLowerCase();
-      }
-    })
-    .join(" ");
-
-  return lyrics;
-};
-
-const appendLyricToArray = (
-  arr: [string, number][],
-  lyric: string,
-  occurances?: number
-): [string, number][] => {
-  if (arr.length === 0 && !occurances) {
-    arr.push([lyric, 1]);
-    return arr;
-  }
-
-  // could just be .contains(lyric) -> .indexOf(lyric)...
-  for (const lyricData of arr) {
-    if (lyricData[0] === lyric) {
-      lyricData[1] += occurances ?? 1;
-      return arr;
-    }
-  }
-
-  if (occurances) {
-    arr.push([lyric, occurances]);
-  } else {
-    arr.push([lyric, 1]);
-  }
-
-  return arr;
-};
-
-const sortLyricsByOccurances = (
-  lyrics: [string, number][]
-): [string, number][] => {
-  const lyricsByDescendingOccurances = lyrics.sort(function (a, b) {
-    if (a[1] > b[1]) return -1;
-    if (a[1] < b[1]) return 1;
-    return 0;
-  });
-
-  return lyricsByDescendingOccurances;
-};
-
-const getOccurancesPerLyric = (lyrics: string): [string, number][] => {
-  let talliedLyrics: [string, number][] = [];
-
-  const lyricsArr = lyrics.split(" ");
-
-  for (const lyric of lyricsArr) {
-    talliedLyrics = appendLyricToArray(talliedLyrics, lyric);
-  }
-
-  return talliedLyrics;
-};
-
-const recalculateAndUpdateGlobalCollection = (
-  updatedTotalUserLyrics: [string, number][]
-) => {
-  // @ts-ignore
-  let cominedLyricCount = [];
-
-  UserLyrics.find({})
-    .exec()
-    .then((response) => {
-      if (response.length > 0) {
-        for (const user of response) {
-          cominedLyricCount.push(user.sortedLyrics);
-        }
-
-        // @ts-ignore
-        for (const lyric of cominedLyricCount.flat()) {
-          updatedTotalUserLyrics = appendLyricToArray(
-            updatedTotalUserLyrics,
-            // @ts-ignore
-            lyric[0],
-            // @ts-ignore
-            lyric[1]
-          );
-        }
-
-        GlobalLyrics.findOneAndUpdate(
-          {},
-          {
-            sortedLyrics: sortLyricsByOccurances(updatedTotalUserLyrics),
-          },
-          { upsert: true },
-          function (err, doc) {
-            if (err) console.error("failed", err);
-          }
-        );
-      }
-    });
-};
 
 export const getLyrics = async (req: Request, res: Response) => {
   const currentUsername = req.body.currentUsername;
@@ -161,10 +53,9 @@ export const getLyrics = async (req: Request, res: Response) => {
           console.log("error was:", err);
         } else {
           recalculateAndUpdateGlobalCollection(finalGlobalResult);
+          res.json({ user: finalUserResult, global: finalGlobalResult });
         }
       }
     );
-
-    res.json({ user: finalUserResult, global: finalGlobalResult });
   });
 };
