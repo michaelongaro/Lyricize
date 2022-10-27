@@ -1,6 +1,6 @@
-import { UserLyrics, GlobalLyrics } from "../models/lyrics";
-import appendLyricToArray from "./appendLyricToArray";
-import sortLyricsByOccurances from "./sortLyricsByOccurances";
+import { UserLyrics, GlobalLyrics } from "../models/lyrics.js";
+import appendLyricToArray from "./appendLyricToArray.js";
+import sortLyricsByOccurances from "./sortLyricsByOccurances.js";
 
 const recalculateAndUpdateGlobalCollection = (
   updatedTotalUserLyrics: [string, number][]

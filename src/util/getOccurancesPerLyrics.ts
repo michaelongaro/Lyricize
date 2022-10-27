@@ -1,4 +1,4 @@
-import appendLyricToArray from "./appendLyricToArray";
+import appendLyricToArray from "./appendLyricToArray.js";
 
 const getOccurancesPerLyric = (lyrics: string): [string, number][] => {
   let talliedLyrics: [string, number][] = [];
