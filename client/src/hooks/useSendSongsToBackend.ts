@@ -18,7 +18,7 @@ export default function useSendSongsToBackend(
     if (
       currentUsername &&
       userSongList &&
-      userSongList.length === totalLikedSongs
+      userSongList.length >= totalLikedSongs! - 50 // adds buffer in case certain songs couldn't be found
     ) {
       axios
         .post("/user-songs", {
