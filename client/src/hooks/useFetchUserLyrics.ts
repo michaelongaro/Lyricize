@@ -14,7 +14,7 @@ export const useFetchUserLyrics = (
   useEffect(() => {
     if (currentUsername) {
       axios
-        .post("/is-user-in-database", {
+        .post(import.meta.env.VITE_BACKEND_URL + "/is-user-in-database", {
           currentUsername,
         })
         .then((res) => {

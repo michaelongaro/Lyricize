@@ -7,8 +7,13 @@ import "../../index.css";
 
 type Props = {};
 
-const AUTH_URL =
-  "https://accounts.spotify.com/authorize?client_id=013a8341148c440caa3fe56fa4742c7c&response_type=code&redirect_uri=https://lyricize-app.herokuapp.com/&scope=user-library-read%20user-read-email%20user-read-private";
+let redirectUri = import.meta.env.VITE_CURRENT_URL;
+
+if (redirectUri !== "http://localhost:5000") {
+  redirectUri += "/";
+}
+
+const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=013a8341148c440caa3fe56fa4742c7c&response_type=code&redirect_uri=${redirectUri}&scope=user-library-read%20user-read-email%20user-read-private`;
 
 function Login({}: Props) {
   return (

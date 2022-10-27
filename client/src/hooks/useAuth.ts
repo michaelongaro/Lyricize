@@ -9,7 +9,7 @@ export default function useAuth(code: string) {
 
   useEffect(() => {
     axios
-      .post("/login", {
+      .post(import.meta.env.VITE_BACKEND_URL + "/login", {
         code,
       })
       .then((res) => {
@@ -29,7 +29,7 @@ export default function useAuth(code: string) {
 
     const interval = setInterval(() => {
       axios
-        .post("/refresh", {
+        .post(import.meta.env.VITE_BACKEND_URL + "/refresh", {
           refreshToken,
         })
         .then((res) => {

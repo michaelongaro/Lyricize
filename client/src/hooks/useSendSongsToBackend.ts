@@ -21,7 +21,7 @@ export default function useSendSongsToBackend(
       userSongList.length >= totalLikedSongs! - 50 // adds buffer in case certain songs couldn't be found
     ) {
       axios
-        .post("/user-songs", {
+        .post(import.meta.env.VITE_BACKEND_URL + "/user-songs", {
           currentUsername,
           userSongList,
         })
