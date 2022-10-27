@@ -29,12 +29,14 @@ function Row({ index, lyric, occurances }: RowProps) {
 
   return (
     <tr className={classes.row}>
-      <td>{trophyEmoji ? trophyEmoji : index}</td>
+      <td>{trophyEmoji ? trophyEmoji : index + 1}</td>
       <td>{lyric}</td>
       <td>{occurances.toLocaleString()}</td>
     </tr>
   );
 }
+
+// scroll to top using portfolio button
 
 type Props = {};
 
@@ -46,24 +48,6 @@ function LyricTable({}: Props) {
   >(null);
 
   const [numberOfLyricsToShow, setNumberOfLyricsToShow] = useState<number>(50);
-
-  // useEffect(() => {
-  //   console.log(
-  //     "typeof is now",
-  //     typeof userLyricsSortedByLength,
-  //     " and length is now:",
-  //     userLyricsSortedByLength?.length,
-  //     userLyricsSortedByLength
-  //   );
-  // }, [userLyricsSortedByLength]);
-
-  // useEffect(() => {
-  //   if (spotifyCtx?.currentlySelectedLyrics) {
-  //     console.log("user?", spotifyCtx.currentlySelectedLyrics.length);
-
-  //     setUserLyricsSortedByLength(spotifyCtx.userLyrics);
-  //   }
-  // }, [spotifyCtx?.currentlySelectedLyrics]);
 
   useEffect(() => {
     const scrollHandler = () => {
