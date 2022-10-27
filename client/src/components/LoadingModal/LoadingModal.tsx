@@ -66,9 +66,9 @@ function LoadingModal({}: Props) {
       <div className={`${classes.modalContainer} baseVertFlex`}>
         <div>
           Fetching lyrics
-          {spotifyCtx?.totalLikedSongs
-            ? ` for ${spotifyCtx?.totalLikedSongs} songs`
-            : " ..."}
+          {spotifyCtx?.totalLikedSongs &&
+            ` for ${spotifyCtx?.totalLikedSongs.toLocaleString()} songs`}
+          ...
         </div>
         <div className={classes.parentLoader}>
           <div className={classes.loader}>
@@ -80,7 +80,7 @@ function LoadingModal({}: Props) {
                 r="20"
                 fill="none"
                 stroke="#70c542"
-                strokeWidth="2"
+                strokeWidth="3"
               />
             </svg>
           </div>
@@ -88,7 +88,7 @@ function LoadingModal({}: Props) {
         {estimatedTimeRemaining && (
           <div style={{ gap: ".5rem" }} className={"baseVertFlex"}>
             <div>estimated time remaining:</div>
-            <div>{estimatedTimeRemaining}</div>
+            <div style={{ fontSize: "1.5em" }}>{estimatedTimeRemaining}</div>
           </div>
         )}
       </div>
