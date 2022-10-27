@@ -112,8 +112,7 @@ const recalculateAndUpdateGlobalCollection = (
           },
           { upsert: true },
           function (err, doc) {
-            if (err) console.log("failed", err);
-            // else console.log("global doc", doc);
+            if (err) console.error("failed", err);
           }
         );
       }
@@ -138,11 +137,6 @@ export const getLyrics = async (req: Request, res: Response) => {
   }
 
   Promise.allSettled(promises).then((results) => {
-    console.log(
-      "Promise.allSettled has completed, result length:",
-      results.length
-    );
-
     let formattedResults = "";
     for (const result of results) {
       // @ts-ignore
