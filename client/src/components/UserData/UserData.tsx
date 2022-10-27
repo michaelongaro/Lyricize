@@ -33,7 +33,10 @@ function UserData({}: Props) {
       {userHasPFP
         ? spotifyCtx.currentPFP && (
             <div className={`${classes.pfpContainer} baseFlex`}>
-              <img src={spotifyCtx.currentPFP} />
+              <img
+                style={{ borderRadius: "50%" }}
+                src={spotifyCtx.currentPFP}
+              />
             </div>
           )
         : spotifyCtx.currentUsername && (
