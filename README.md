@@ -10,7 +10,7 @@ All information is stored on an instance of [MongoDB Atlas](https://www.mongodb.
 
 <!-- screenshot of homepage here -->
 
-![sample video of website](https://i.imgur.com/uJTWwpL.mp4)
+![sample video of website](https://i.gyazo.com/4fe3846289c904134e682258220d62b3.mp4)
 
 ## Available Scripts
 
