@@ -2,10 +2,7 @@
 
 live site: [Lyricize](https://lyricize-app.herokuapp.com/).
 
-<!-- screenshot of homepage here -->
-<p align="center">
-  <img width="460" height="300" src="https://user-images.githubusercontent.com/35980684/198435746-84be6112-908b-4b38-b58c-06a9e9e0ecc8.gif">
-</p>
+https://user-images.githubusercontent.com/35980684/198496199-60f6e3cf-ee3f-420b-b9d4-078e491d24de.mp4
 
 ## Description
 
