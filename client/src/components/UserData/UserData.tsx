@@ -36,12 +36,17 @@ function UserData({}: Props) {
               <img
                 style={{ borderRadius: "50%" }}
                 src={spotifyCtx.currentPFP}
+                alt={"Spotify user profile"}
               />
             </div>
           )
         : spotifyCtx.currentUsername && (
             <div className={`${classes.pfpContainer} baseFlex`}>
-              <img className={classes.fallbackPFP} src={defaultUserImage} />
+              <img
+                className={classes.fallbackPFP}
+                src={defaultUserImage}
+                alt={"Default user profile"}
+              />
             </div>
           )}
 

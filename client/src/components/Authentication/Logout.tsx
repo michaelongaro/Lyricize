@@ -24,7 +24,7 @@ function Logout({}: Props) {
       }}
     >
       <div className={`${classes.innerLogout} baseFlex`}>
-        <img src={logoutIcon} />
+        <img src={logoutIcon} alt={"Logout"} />
         <div>Log Out</div>
       </div>
     </button>

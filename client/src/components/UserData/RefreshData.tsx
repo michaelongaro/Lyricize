@@ -29,7 +29,11 @@ function RefreshData({}: Props) {
       onMouseOut={() => setRotateDegrees("0deg")}
       onTouchCancel={() => setRotateDegrees("0deg")}
     >
-      <img style={{ rotate: `${rotateDegrees}` }} src={refreshIcon} />
+      <img
+        style={{ rotate: `${rotateDegrees}` }}
+        src={refreshIcon}
+        alt={"Refresh lyrics"}
+      />
     </button>
   );
 }

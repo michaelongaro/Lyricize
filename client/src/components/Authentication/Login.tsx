@@ -23,7 +23,7 @@ function Login({}: Props) {
       href={AUTH_URL}
     >
       <div>Login</div>
-      <img src={spotifyIcon}></img>
+      <img src={spotifyIcon} alt={"Spotify Logo"}></img>
     </a>
   );
 }

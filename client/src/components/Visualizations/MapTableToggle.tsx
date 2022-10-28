@@ -50,7 +50,7 @@ function MapTableToggle({ code }: Props) {
           style={{ gap: ".5rem" }}
           className={`${mapSelected ? "toggledOn" : ""} baseFlex`}
         >
-          <img src={mapIcon} className={classes.icon} />
+          <img src={mapIcon} className={classes.icon} alt={"Bubble map icon"} />
           Map
         </button>
         <button
@@ -58,7 +58,7 @@ function MapTableToggle({ code }: Props) {
           style={{ gap: ".5rem" }}
           className={`${!mapSelected ? "toggledOn" : ""} baseFlex`}
         >
-          <img src={listIcon} className={classes.icon} />
+          <img src={listIcon} className={classes.icon} alt={"Table icon"} />
           List
         </button>
       </div>

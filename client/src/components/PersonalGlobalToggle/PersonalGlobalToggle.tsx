@@ -32,7 +32,7 @@ function PersonalGlobalToggle({}: Props) {
             spotifyCtx?.showUserLyrics ? "toggledOn" : ""
           } baseFlex`}
         >
-          <img src={userIcon} className={classes.icon} />
+          <img src={userIcon} className={classes.icon} alt={"User"} />
           My Stats
         </button>
         <button
@@ -41,7 +41,7 @@ function PersonalGlobalToggle({}: Props) {
             !spotifyCtx?.showUserLyrics ? "toggledOn" : ""
           } baseFlex`}
         >
-          <img src={worldIcon} className={classes.icon} />
+          <img src={worldIcon} className={classes.icon} alt={"Global"} />
           Global Stats
         </button>
 
