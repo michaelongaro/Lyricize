@@ -20,3 +20,9 @@
   color: rgb(204, 204, 204);
   font-size: 1.25em;
 }
+
+@media (max-width: 900px) {
+  .dataContainer {
+    margin-top: 0.5rem;
+  }
+}
