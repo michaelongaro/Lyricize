@@ -1,0 +1,44 @@
+.scrollToTopContainer {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background-color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  border: 2px solid #353535;
+  border-radius: 50%;
+  opacity: 0;
+  width: 50px;
+  height: 50px;
+  pointer-events: none;
+  transition: all 150ms;
+}
+
+.scrollToTopContainer>img {
+  width: 25px;
+  height: 25px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .scrollToTopContainer:hover {
+    background-color: #ffffff;
+    filter: brightness(1.1);
+  }
+}
+
+.scrollToTopContainer:active {
+  filter: brightness(0.95);
+  bottom: calc(1rem - 3px);
+}
+
+@media (max-width: 600px) {
+  .scrollToTopContainer {
+    right: 0.5rem;
+    width: 40px;
+    height: 40px;
+  }
+
+  .scrollToTopContainer>img {
+    width: 15px;
+    height: 15px;
+  }
+}
