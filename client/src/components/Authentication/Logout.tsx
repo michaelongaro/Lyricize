@@ -1,5 +1,7 @@
 import React from "react";
 
+import logoutIcon from "../../assets/logout.svg";
+
 import classes from "./Logout.module.css";
 
 type Props = {};
@@ -21,7 +23,10 @@ function Logout({}: Props) {
         }, 2000);
       }}
     >
-      Log Out
+      <div className={`${classes.innerLogout} baseFlex`}>
+        <img src={logoutIcon} />
+        <div>Log Out</div>
+      </div>
     </button>
   );
 }
