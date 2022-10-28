@@ -4,6 +4,7 @@ import SpotifyContext from "../../context/SpotifyContext";
 import LyricLengthFilter from "../LyricLengthFilter/LyricLengthFilter";
 
 import LoadingModal from "../LoadingModal/LoadingModal";
+import ScrollToTop from "../ScrollToTop/ScrollToTop";
 
 import classes from "./LyricTable.module.css";
 import "../../index.css";
@@ -36,8 +37,6 @@ function Row({ index, lyric, occurances }: RowProps) {
   );
 }
 
-// scroll to top using portfolio button
-
 type Props = {};
 
 function LyricTable({}: Props) {
@@ -51,7 +50,10 @@ function LyricTable({}: Props) {
 
   useEffect(() => {
     const scrollHandler = () => {
-      if (window.innerHeight + window.scrollY >= document.body.scrollHeight) {
+      if (
+        window.innerHeight + Math.round(window.scrollY) >=
+        document.body.scrollHeight - 25
+      ) {
         if (
           userLyricsSortedByLength &&
           numberOfLyricsToShow < userLyricsSortedByLength.length
@@ -78,7 +80,7 @@ function LyricTable({}: Props) {
       )}
 
       {userLyricsSortedByLength && !spotifyCtx?.refreshLyrics ? (
-        <div style={{ borderRadius: ".75rem" }}>
+        <>
           <table className={classes.table}>
             <thead className={`${classes.row} ${classes.legendRow}`}>
               <tr>
@@ -103,7 +105,8 @@ function LyricTable({}: Props) {
                 })}
             </tbody>
           </table>
-        </div>
+          <ScrollToTop />
+        </>
       ) : (
         <LoadingModal />
       )}
