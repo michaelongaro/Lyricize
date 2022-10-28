@@ -12,6 +12,10 @@
   display: none;
 }
 
+.controlsContainer {
+  transition: all 150ms;
+}
+
 .logo {
   margin-left: 2rem;
   font-size: 2em;
@@ -45,5 +49,11 @@
     align-items: center;
 
     width: 100%;
+  }
+}
+
+@media (max-width: 435px) {
+  .controlsContainer {
+    transform: scale(.9);
   }
 }

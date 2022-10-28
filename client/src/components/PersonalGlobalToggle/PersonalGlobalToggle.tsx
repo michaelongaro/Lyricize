@@ -25,7 +25,7 @@ function PersonalGlobalToggle({}: Props) {
       <div className={classes.desktopLogo}>
         <div className={classes.logo}>Lyricize</div>
       </div>
-      <div className={"baseFlex"}>
+      <div className={`${classes.controlsContainer} baseFlex`}>
         <button
           onClick={() => spotifyCtx?.setShowUserLyrics(true)}
           className={`${classes.toggleButton} ${
