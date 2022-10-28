@@ -10,9 +10,9 @@ All information is stored on an instance of [MongoDB Atlas](https://www.mongodb.
 
 <!-- screenshot of homepage here -->
 
-![sample video of website](https://i.gyazo.com/4fe3846289c904134e682258220d62b3.mp4)
+![sample video of website](https://user-images.githubusercontent.com/35980684/198435746-84be6112-908b-4b38-b58c-06a9e9e0ecc8.gif)
 
-## Available Scripts
+## Available Scripts!
 
 In the project directory, you can run:
 
