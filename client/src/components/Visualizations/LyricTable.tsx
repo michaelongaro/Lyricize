@@ -52,7 +52,7 @@ function LyricTable({}: Props) {
     const scrollHandler = () => {
       if (
         window.innerHeight + Math.round(window.scrollY) >=
-        document.body.scrollHeight - 25
+        document.body.scrollHeight - 100
       ) {
         if (
           userLyricsSortedByLength &&
