@@ -12,8 +12,6 @@ import { refresh } from "./controllers/refresh.js";
 import { getLyrics } from "./controllers/getLyrics.js";
 import { isUserInDatabase } from "./controllers/isUserInDatabase.js";
 
-console.log("reached index.js");
-
 const app = express();
 
 app.use(cors());
