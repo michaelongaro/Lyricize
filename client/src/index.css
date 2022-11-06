@@ -22,7 +22,7 @@ body {
 }
 
 body {
-  font-family: 'M PLUS 1', sans-serif;
+  font-family: "M PLUS 1", sans-serif;
   line-height: 1.5;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -83,30 +83,30 @@ ul {
 .buttonContainer button,
 .changeShownLyricAmount {
   border: 1px solid rgb(59, 59, 59);
-  padding: .6rem .75rem;
+  padding: 0.6rem 0.75rem;
   cursor: pointer;
   transition: all 100ms;
 }
 
 .buttonContainer button:first-of-type {
-  border-radius: .75rem 0 0 .75rem;
+  border-radius: 0.75rem 0 0 0.75rem;
 }
 
 .buttonContainer button:last-of-type {
-  border-radius: 0 .75rem .75rem 0;
+  border-radius: 0 0.75rem 0.75rem 0;
 }
 
 .buttonContainer button:hover {
-  filter: brightness(.75);
+  filter: brightness(0.75);
 }
 
 .toggledOn {
   box-shadow: inset 0px 2px 4px 2px hsl(0deg 0% 0% / 85%);
 }
 
-
 g>text {
   pointer-events: none;
+  text-shadow: 0px 1px 5px #000000;
 }
 
 .node>* {
@@ -114,7 +114,7 @@ g>text {
 }
 
 .changeShownLyricAmount {
-  border-radius: .75rem;
+  border-radius: 0.75rem;
 }
 
 .changeShownLyricAmount:disabled {
@@ -122,5 +122,5 @@ g>text {
 }
 
 .changeShownLyricAmount:enabled:hover {
-  filter: brightness(.75);
+  filter: brightness(0.75);
 }
