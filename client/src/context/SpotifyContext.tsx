@@ -9,6 +9,7 @@ interface ISpotifyContext {
   accessToken: string | null;
   setAccessToken: Function; // these should be proper react setState types
 
+  userSongList: string[] | null;
   totalLikedSongs: number | null;
 
   // dont know if you need to expose all of this
@@ -171,6 +172,7 @@ export function SpotifyProvider(props: any) {
   const context = {
     accessToken,
     setAccessToken,
+    userSongList,
     totalLikedSongs,
     userLyrics,
     setUserLyrics,
