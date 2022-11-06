@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 
 import SpotifyContext from "../../context/SpotifyContext";
+import ProgressBar from "./ProgressBar";
 
 import classes from "./LoadingModal.module.css";
 import "../../index.css";
@@ -11,6 +12,10 @@ function LoadingModal({}: Props) {
   const spotifyCtx = useContext(SpotifyContext);
 
   const [totalEstimatedTime, setTotalEstimatedTime] = useState<number>(0);
+  const [constTotalEstimatedTime, setConstTotalEstimatedTime] =
+    useState<number>(0);
+  const [totalProgressBarEstimatedTime, setTotalProgressBarEstimatedTime] =
+    useState<number>(0);
   const [estimatedTimeRemaining, setEstimatedTimeRemaining] =
     useState<string>("");
 
@@ -27,30 +32,54 @@ function LoadingModal({}: Props) {
       if (spotifyCtx.refreshLyrics && spotifyCtx.totalLikedSongs) {
         // it takes roughly .55 seconds to fetch lyrics for each song
         setTotalEstimatedTime(spotifyCtx.totalLikedSongs * 0.55);
+        setConstTotalEstimatedTime(spotifyCtx.totalLikedSongs * 0.55);
+        setTotalProgressBarEstimatedTime(spotifyCtx.totalLikedSongs * 0.55);
       }
     }
   }, [spotifyCtx?.refreshLyrics, spotifyCtx?.totalLikedSongs]);
 
   useEffect(() => {
-    let interval: number;
+    let formattedInterval: number;
+
     if (totalEstimatedTime) {
-      interval = window.setInterval(() => {
-        setEstimatedTimeRemaining(getTimeRemaining());
+      formattedInterval = window.setInterval(() => {
+        setEstimatedTimeRemaining(getTimeRemaining(totalEstimatedTime));
+
         setTotalEstimatedTime((prevTime) => prevTime - 1);
       }, 1000);
     }
 
     return () => {
-      clearInterval(interval);
+      clearInterval(formattedInterval);
     };
   }, [totalEstimatedTime]);
 
-  const getTimeRemaining = (): string => {
-    if (totalEstimatedTime) {
+  useEffect(() => {
+    let secondsInterval: number;
+
+    if (totalProgressBarEstimatedTime) {
+      secondsInterval = window.setInterval(() => {
+        setTotalProgressBarEstimatedTime((prevTime) => prevTime - 1);
+      }, 550);
+    }
+
+    return () => {
+      clearInterval(secondsInterval);
+    };
+  }, [totalProgressBarEstimatedTime]);
+
+  const getTimeRemaining = (
+    remainingTime: number,
+    returnSeconds?: boolean
+  ): string => {
+    if (remainingTime) {
+      if (returnSeconds) {
+      }
+
       const minutes = Math.floor(
-        ((totalEstimatedTime - (totalEstimatedTime % 60)) / 60) % 60
+        ((remainingTime - (remainingTime % 60)) / 60) % 60
       );
-      const seconds = Math.floor(totalEstimatedTime % 60);
+      const seconds = Math.floor(remainingTime % 60);
 
       const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
       const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
@@ -64,32 +93,39 @@ function LoadingModal({}: Props) {
   return (
     <div className={`${classes.modalBackground} baseFlex`}>
       <div className={`${classes.modalContainer} baseVertFlex`}>
-        <div>
-          Fetching lyrics
-          {spotifyCtx?.totalLikedSongs &&
-            ` for ${spotifyCtx?.totalLikedSongs.toLocaleString()} songs`}
-          ...
-        </div>
-        <div className={classes.parentLoader}>
-          <div className={classes.loader}>
-            <svg className={classes.circle} viewBox="25 25 50 50">
-              <circle
-                className={classes.loaderPath}
-                cx="50"
-                cy="50"
-                r="20"
-                fill="none"
-                stroke="#70c542"
-                strokeWidth="3"
-              />
-            </svg>
+        <div>Fetching lyrics...</div>
+        {spotifyCtx?.userSongList && estimatedTimeRemaining !== "00:00" ? (
+          <ProgressBar
+            estimatedSecondsRemainingStr={Math.floor(
+              totalProgressBarEstimatedTime
+            ).toString()}
+            progressBarTimeElapsed={totalEstimatedTime}
+            totalTime={Math.floor(constTotalEstimatedTime)}
+          />
+        ) : (
+          <div className={classes.parentLoader}>
+            <div className={classes.loader}>
+              <svg className={classes.circle} viewBox="25 25 50 50">
+                <circle
+                  className={classes.loaderPath}
+                  cx="50"
+                  cy="50"
+                  r="20"
+                  fill="none"
+                  stroke="#70c542"
+                  strokeWidth="3"
+                />
+              </svg>
+            </div>
           </div>
-        </div>
-        {estimatedTimeRemaining && (
+        )}
+        {estimatedTimeRemaining && estimatedTimeRemaining !== "00:00" ? (
           <div style={{ gap: ".5rem" }} className={"baseVertFlex"}>
             <div>estimated time remaining:</div>
             <div style={{ fontSize: "1.5em" }}>{estimatedTimeRemaining}</div>
           </div>
+        ) : (
+          spotifyCtx?.userSongList && <div>finishing up!</div>
         )}
       </div>
     </div>
