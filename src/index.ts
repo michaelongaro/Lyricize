@@ -11,6 +11,7 @@ import { login } from "./controllers/login.js";
 import { refresh } from "./controllers/refresh.js";
 import { getLyrics } from "./controllers/getLyrics.js";
 import { isUserInDatabase } from "./controllers/isUserInDatabase.js";
+import { updateDatabase } from "./controllers/updateDatabase.js";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use("/login", login);
 app.use("/refresh", refresh);
 
 app.use("/user-songs", getLyrics);
+app.use("/update-database", updateDatabase);
 app.use("/is-user-in-database", isUserInDatabase);
 
 const CONNECTION_URL = process.env.MONGO_URI!;

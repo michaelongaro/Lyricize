@@ -21,7 +21,10 @@ function ProgressBar({
   const estimatedProgressBarTimeElapsed =
     totalTime - parseInt(estimatedSecondsRemainingStr);
 
-  const estimatedTimeElapsed = totalTime - progressBarTimeElapsed;
+  // const estimatedTimeElapsed = totalTime - progressBarTimeElapsed;
+  const progressPercentage = Math.floor(
+    spotifyCtx.incrementalIndex / spotifyCtx.totalLikedSongs
+  );
 
   const percentOfSongsFetched = Math.floor(
     (estimatedTimeElapsed / totalTime) * 100
@@ -42,7 +45,7 @@ function ProgressBar({
     <div style={{ gap: "1rem" }} className={"baseVertFlex"}>
       <div style={{ width: "15rem" }}>
         <Line
-          percent={percentOfSongsFetched}
+          percent={progressPercentage}
           strokeWidth={10}
           strokeColor="#1DB954"
           trailWidth={10}

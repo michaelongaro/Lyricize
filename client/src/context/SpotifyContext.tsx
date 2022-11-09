@@ -3,6 +3,7 @@ import { createContext, useEffect, useState } from "react";
 import SpotifyWebApi from "spotify-web-api-node";
 
 import { useFetchUserLyrics } from "../hooks/useFetchUserLyrics";
+import useIncrementallyFetchSongLyrics from "../hooks/useIncrementallyFetchSongLyrics";
 import useSendSongsToBackend from "../hooks/useSendSongsToBackend";
 
 interface ISpotifyContext {
@@ -11,6 +12,8 @@ interface ISpotifyContext {
 
   userSongList: string[] | null;
   totalLikedSongs: number | null;
+
+  incrementalIndex: number;
 
   // dont know if you need to expose all of this
   userLyrics: [string, number][] | null;
@@ -46,6 +49,10 @@ export function SpotifyProvider(props: any) {
   const [currentPFP, setCurrentPFP] = useState<string | null>(null);
   const [currentUsername, setCurrentUsername] = useState<string | null>(null);
 
+  const [incrementalUserLyrics, setIncrementalUserLyrics] = useState<
+    [string, number][] | null
+  >(null);
+  const [incrementalIndex, setIncrementalIndex] = useState<number>(0);
   const [userLyrics, setUserLyrics] = useState<[string, number][] | null>(null);
   const [globalLyrics, setGlobalLyrics] = useState<[string, number][] | null>(
     null
@@ -92,7 +99,7 @@ export function SpotifyProvider(props: any) {
   }, [userLyrics, globalLyrics, showUserLyrics]);
 
   // is this a proper situation/setup for hooks?
-  useFetchUserLyrics(
+  useIncrementallyFetchSongLyrics(
     currentUsername,
     setUserLyrics,
     setGlobalLyrics,
@@ -174,6 +181,9 @@ export function SpotifyProvider(props: any) {
     setAccessToken,
     userSongList,
     totalLikedSongs,
+    incrementalIndex,
+    incrementalUserLyrics,
+    setIncrementalUserLyrics,
     userLyrics,
     setUserLyrics,
     globalLyrics,

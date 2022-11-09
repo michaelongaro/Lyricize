@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 
 import Genius from "genius-lyrics";
 
-import { UserLyrics } from "../models/lyrics.js";
 import getOccurancesPerLyric from "../util/getOccurancesPerLyrics.js";
 import recalculateAndUpdateGlobalCollection from "../util/recalculateAndUpdateGlobalCollection.js";
 
@@ -42,20 +41,22 @@ export const getLyrics = async (req: Request, res: Response) => {
       getOccurancesPerLyric(formattedResults)
     );
 
-    let finalGlobalResult: [string, number][] = [];
+    res.json(finalUserResult);
 
-    UserLyrics.findOneAndUpdate(
-      { spotifyUsername: currentUsername },
-      { sortedLyrics: finalUserResult },
-      { upsert: true },
-      function (err, doc) {
-        if (err) {
-          console.log("error was:", err);
-        } else {
-          recalculateAndUpdateGlobalCollection(finalGlobalResult);
-          res.json({ user: finalUserResult, global: finalGlobalResult });
-        }
-      }
-    );
+    // let finalGlobalResult: [string, number][] = [];
+
+    // UserLyrics.findOneAndUpdate(
+    //   { spotifyUsername: currentUsername },
+    //   { sortedLyrics: finalUserResult },
+    //   { upsert: true },
+    //   function (err, doc) {
+    //     if (err) {
+    //       console.log("error was:", err);
+    //     } else {
+    //       recalculateAndUpdateGlobalCollection(finalGlobalResult);
+    //       res.json({ user: finalUserResult, global: finalGlobalResult });
+    //     }
+    //   }
+    // );
   });
 };
