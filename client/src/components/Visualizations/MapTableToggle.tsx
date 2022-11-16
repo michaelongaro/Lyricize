@@ -1,7 +1,8 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 
 import SpotifyContext from "../../context/SpotifyContext";
 import useAuth from "../../hooks/useAuth";
+import { useFetchSharedUserLyrics } from "../../hooks/useFetchSharedUserLyrics";
 
 import LyricTable from "./LyricTable";
 import LyricMap from "./LyricMap";
@@ -16,28 +17,44 @@ import classes from "./MapTableToggle.module.css";
 import "../../index.css";
 
 type Props = {
-  code: string;
+  code?: string;
+  userIDBeingSearched?: string;
 };
 
-function MapTableToggle({ code }: Props) {
+function MapTableToggle({ code, userIDBeingSearched }: Props) {
   const spotifyCtx = useContext(SpotifyContext);
 
-  const accessToken = useAuth(code);
+  let accessToken: string | null = null;
+  if (code) {
+    accessToken = useAuth(code);
+  }
+
+  const [showSharedUserData, setShowSharedUserData] = useState<boolean>(false);
   const [mapSelected, setMapSelected] = useState(true);
 
-  useEffect(() => {
-    console.log("access token", accessToken);
+  useFetchSharedUserLyrics(
+    userIDBeingSearched,
+    spotifyCtx!.setUserLyrics,
+    spotifyCtx!.setCurrentUsername
+  );
 
-    if (accessToken) {
-      spotifyCtx?.setAccessToken(accessToken);
+  useEffect(() => {
+    if (userIDBeingSearched) {
+      setShowSharedUserData(true);
     }
-  }, [accessToken]);
+  }, [userIDBeingSearched]);
+
+  useEffect(() => {
+    if (spotifyCtx && accessToken) {
+      spotifyCtx.setAccessToken(accessToken);
+    }
+  }, [accessToken, spotifyCtx]);
 
   return (
     <div style={{ gap: "1.5rem" }} className={"baseVertFlex"}>
-      <PersonalGlobalToggle />
+      {!showSharedUserData && <PersonalGlobalToggle />}
 
-      {spotifyCtx?.showUserLyrics && <UserData />}
+      {spotifyCtx?.userLyrics && <UserData />}
 
       <div
         style={{
@@ -46,17 +63,17 @@ function MapTableToggle({ code }: Props) {
         className={"buttonContainer baseFlex"}
       >
         <button
-          onClick={() => setMapSelected(true)}
           style={{ gap: ".5rem" }}
           className={`${mapSelected ? "toggledOn" : ""} baseFlex`}
+          onClick={() => setMapSelected(true)}
         >
           <img src={mapIcon} className={classes.icon} alt={"Bubble map icon"} />
           Map
         </button>
         <button
-          onClick={() => setMapSelected(false)}
           style={{ gap: ".5rem" }}
           className={`${!mapSelected ? "toggledOn" : ""} baseFlex`}
+          onClick={() => setMapSelected(false)}
         >
           <img src={listIcon} className={classes.icon} alt={"Table icon"} />
           List
