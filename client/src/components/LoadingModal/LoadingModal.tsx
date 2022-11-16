@@ -30,10 +30,10 @@ function LoadingModal({}: Props) {
   useEffect(() => {
     if (spotifyCtx) {
       if (spotifyCtx.refreshLyrics && spotifyCtx.totalLikedSongs) {
-        // it takes roughly .55 seconds to fetch lyrics for each song
-        setTotalEstimatedTime(spotifyCtx.totalLikedSongs * 0.55);
-        setConstTotalEstimatedTime(spotifyCtx.totalLikedSongs * 0.55);
-        setTotalProgressBarEstimatedTime(spotifyCtx.totalLikedSongs * 0.55);
+        // it takes roughly .45 seconds to fetch lyrics for each song
+        setTotalEstimatedTime(spotifyCtx.totalLikedSongs * 0.45);
+        setConstTotalEstimatedTime(spotifyCtx.totalLikedSongs * 0.45);
+        setTotalProgressBarEstimatedTime(spotifyCtx.totalLikedSongs * 0.45);
       }
     }
   }, [spotifyCtx?.refreshLyrics, spotifyCtx?.totalLikedSongs]);
@@ -68,14 +68,8 @@ function LoadingModal({}: Props) {
     };
   }, [totalProgressBarEstimatedTime]);
 
-  const getTimeRemaining = (
-    remainingTime: number,
-    returnSeconds?: boolean
-  ): string => {
-    if (remainingTime) {
-      if (returnSeconds) {
-      }
-
+  const getTimeRemaining = (remainingTime: number): string => {
+    if (remainingTime > 0) {
       const minutes = Math.floor(
         ((remainingTime - (remainingTime % 60)) / 60) % 60
       );
@@ -125,7 +119,8 @@ function LoadingModal({}: Props) {
             <div style={{ fontSize: "1.5em" }}>{estimatedTimeRemaining}</div>
           </div>
         ) : (
-          spotifyCtx?.userSongList && <div>finishing up!</div>
+          spotifyCtx?.userSongList &&
+          estimatedTimeRemaining === "00:00" && <div>finishing up!</div>
         )}
       </div>
     </div>
