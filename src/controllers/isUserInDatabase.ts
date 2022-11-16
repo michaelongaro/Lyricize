@@ -3,11 +3,22 @@ import { Request, Response } from "express";
 import { GlobalLyrics, UserLyrics } from "../models/lyrics.js";
 
 export const isUserInDatabase = async (req: Request, res: Response) => {
-  const currentUsername = req.body.currentUsername;
+  const currentUsername = req.body?.currentUsername;
+  const currentID = req.body?.uid;
 
-  console.log("at least made it this far before timing out"); // push to heroku and try this in the morning
+  interface ISearchCriteria {
+    spotifyUsername?: string;
+    shortUUID?: string;
+  }
 
-  UserLyrics.find({ spotifyUsername: currentUsername })
+  let searchCriteria: ISearchCriteria = {};
+  if (currentUsername) {
+    searchCriteria = { spotifyUsername: currentUsername };
+  } else if (currentID) {
+    searchCriteria = { shortUUID: currentID };
+  }
+
+  UserLyrics.find(searchCriteria)
     .exec()
     .then((userResponse) => {
       if (userResponse.length > 0) {
@@ -17,6 +28,8 @@ export const isUserInDatabase = async (req: Request, res: Response) => {
             if (globalResponse.length > 0) {
               res.json({
                 user: userResponse[0]["sortedLyrics"],
+                spotifyUsername: userResponse[0]["spotifyUsername"],
+                uid: userResponse[0]["shortUUID"],
                 global: globalResponse[0]["sortedLyrics"],
               });
             }
