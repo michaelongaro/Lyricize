@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 
 import axios from "axios";
 
-export default function useAuth(code: string) {
-  const [accessToken, setAccessToken] = useState();
+export default function useAuth(code: string): string {
+  const [accessToken, setAccessToken] = useState<string>("");
   const [refreshToken, setRefreshToken] = useState();
   const [expiresIn, setExpiresIn] = useState();
 
@@ -33,8 +33,6 @@ export default function useAuth(code: string) {
           refreshToken,
         })
         .then((res) => {
-          console.log("received", res.data);
-
           setAccessToken(res.data.accessToken);
           setExpiresIn(res.data.expiresIn);
         })

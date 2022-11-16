@@ -46,8 +46,6 @@ function LyricLengthFilter({
 
     newValues[index] = newState;
 
-    console.log("turned ", index, "to ", newState);
-
     setButtonClickedStates(newValues);
 
     filterLyricsByLength(newState ? value : -1);
