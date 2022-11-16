@@ -54,7 +54,7 @@ function MapTableToggle({ code, userIDBeingSearched }: Props) {
     <div style={{ gap: "1.5rem" }} className={"baseVertFlex"}>
       {!showSharedUserData && <PersonalGlobalToggle />}
 
-      {spotifyCtx?.userLyrics && <UserData />}
+      {spotifyCtx?.showUserLyrics && <UserData />}
 
       <div
         style={{
