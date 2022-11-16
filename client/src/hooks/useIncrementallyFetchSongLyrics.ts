@@ -1,76 +1,86 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 
 import axios from "axios";
 
-import SpotifyContext from "../context/SpotifyContext";
-
-export default function useIncrementallyFetchSongLyrics() {
-  // spotifyCtx.currentUsername: string | null,
-  // spotifyCtx.userSongList: string[] | null,
-  // spotifyCtx.totalLikedSongs: number | null,
-  // incrementalIndex: number,
-  // incrementalUserLyrics: string[] | null,
-  // setIncrementalUserLyrics: React.Dispatch<
-  //   React.SetStateAction<[string, number][] | null>
-  // >,
-  // setUserLyrics: React.Dispatch<
-  //   React.SetStateAction<[string, number][] | null>
-  // >,
-  // setGlobalLyrics: React.Dispatch<
-  //   React.SetStateAction<[string, number][] | null>
-  // >,
-  // setRefreshLyrics: React.Dispatch<React.SetStateAction<boolean>>
-  const spotifyCtx = useContext(SpotifyContext);
-
+export default function useIncrementallyFetchSongLyrics(
+  currentUsername: string | null,
+  userSongList: string[] | null,
+  totalLikedSongs: number | null,
+  incrementalIndex: number,
+  setIncrementalIndex: React.Dispatch<React.SetStateAction<number>>,
+  incrementalUserLyrics: [string, number][],
+  setIncrementalUserLyrics: React.Dispatch<
+    React.SetStateAction<[string, number][]>
+  >,
+  currentlyFetchingSongs: boolean,
+  setCurrentlyFetchingSongs: React.Dispatch<React.SetStateAction<boolean>>,
+  setUserLyrics: React.Dispatch<
+    React.SetStateAction<[string, number][] | null>
+  >,
+  setGlobalLyrics: React.Dispatch<
+    React.SetStateAction<[string, number][] | null>
+  >,
+  setUserID: React.Dispatch<React.SetStateAction<string | null>>,
+  setRefreshLyrics: React.Dispatch<React.SetStateAction<boolean>>
+) {
   useEffect(() => {
     if (
-      spotifyCtx.currentUsername &&
-      spotifyCtx.userSongList &&
-      spotifyCtx.userSongList.length >= spotifyCtx.totalLikedSongs! - 50 && // adds buffer in case certain songs couldn't be found
-      spotifyCtx.incrementalIndex !== -2 // idk why you didn't do -1
+      currentUsername &&
+      userSongList &&
+      userSongList.length >= totalLikedSongs! - 50 && // adds buffer in case certain songs couldn't be found
+      incrementalIndex !== -1 &&
+      !currentlyFetchingSongs
     ) {
-      const nextSongChunk = spotifyCtx.userSongList.slice(
-        spotifyCtx.incrementalIndex,
-        spotifyCtx.incrementalIndex + 20
+      const nextSongChunk = userSongList.slice(
+        incrementalIndex,
+        incrementalIndex + 20
       );
 
       axios
         .post(import.meta.env.VITE_BACKEND_URL + "/user-songs", {
-          currentUsername: spotifyCtx.currentUsername,
           nextSongChunk: nextSongChunk,
-          userLyrics: spotifyCtx.userLyrics,
+          prevUserLyrics: incrementalUserLyrics,
         })
         .then((userSongsRes) => {
-          if (incrementalIndex + 20 < spotifyCtx.userSongList.length) {
-            spotifyCtx.setIncrementalUserLyrics(userSongsRes.data);
-            spotifyCtx.setIncrementalIndex((prev) => prev + 20);
+          if (
+            userSongList?.length &&
+            incrementalIndex + 20 < userSongList.length
+          ) {
+            setIncrementalUserLyrics(userSongsRes.data);
+            setIncrementalIndex((prev) => prev + 20);
           } else {
             axios
               .post(import.meta.env.VITE_BACKEND_URL + "/update-database", {
+                currentUsername: currentUsername,
                 finalUserResult: userSongsRes.data,
               })
               .then((updateDatabaseRes) => {
-                spotifyCtx.setUserLyrics(updateDatabaseRes.data.user);
-                spotifyCtx.setGlobalLyrics(updateDatabaseRes.data.global);
-                spotifyCtx.setRefreshLyrics(false);
+                setUserLyrics(updateDatabaseRes.data.user);
+                setGlobalLyrics(updateDatabaseRes.data.global);
+                setUserID(updateDatabaseRes.data.uid);
+                setRefreshLyrics(false);
               })
               .catch(() => {
                 // workaround for weird ts interaction
                 (window as Window).location = "/";
               });
-            spotifyCtx.setIncrementalUserLyrics(-2);
+            setIncrementalIndex(-1);
           }
+          setCurrentlyFetchingSongs(false);
         })
         .catch(() => {
           // workaround for weird ts interaction
           (window as Window).location = "/";
+          setCurrentlyFetchingSongs(false);
         });
+      setCurrentlyFetchingSongs(true);
     }
   }, [
-    spotifyCtx.userSongList,
-    spotifyCtx.totalLikedSongs,
-    spotifyCtx.currentUsername,
-    spotifyCtx.incrementalUserLyrics,
-    spotifyCtx.incrementalIndex,
+    userSongList,
+    totalLikedSongs,
+    currentUsername,
+    incrementalUserLyrics,
+    incrementalIndex,
+    currentlyFetchingSongs,
   ]);
 }
