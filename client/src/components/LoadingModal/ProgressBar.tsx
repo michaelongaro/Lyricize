@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import SpotifyContext from "../../context/SpotifyContext";
 
 import { Line } from "rc-progress";
@@ -22,13 +22,19 @@ function ProgressBar({
     totalTime - parseInt(estimatedSecondsRemainingStr);
 
   // const estimatedTimeElapsed = totalTime - progressBarTimeElapsed;
-  const progressPercentage = Math.floor(
-    spotifyCtx.incrementalIndex / spotifyCtx.totalLikedSongs
-  );
-
-  const percentOfSongsFetched = Math.floor(
-    (estimatedTimeElapsed / totalTime) * 100
-  );
+  const [progressPercentage, setProgressPercentage] = useState<number>(0);
+  useEffect(() => {
+    if (
+      spotifyCtx &&
+      spotifyCtx.incrementalIndex &&
+      spotifyCtx.totalLikedSongs
+    ) {
+      // look at these numbers and see why it isn't
+      setProgressPercentage(
+        (spotifyCtx.incrementalIndex / spotifyCtx.totalLikedSongs) * 100
+      );
+    }
+  }, [spotifyCtx?.incrementalIndex, spotifyCtx?.totalLikedSongs]);
 
   let currentSong: string = "";
 
@@ -38,7 +44,11 @@ function ProgressBar({
         spotifyCtx.userSongList.length
     );
     currentSong = spotifyCtx.userSongList[songIdx];
-    currentSong = currentSong.replace(",", " - ");
+    if (currentSong) {
+      currentSong = currentSong.replace(",", " - ");
+    } else {
+      currentSong = "";
+    }
   }
 
   return (
@@ -57,6 +67,7 @@ function ProgressBar({
           width: "25rem",
           whiteSpace: "nowrap",
           overflow: "hidden",
+          textAlign: "left",
           textOverflow: "ellipsis",
         }}
         className={"baseVertFlex"}
