@@ -1,12 +1,16 @@
+import { Response } from "express";
 import { UserLyrics, GlobalLyrics } from "../models/lyrics.js";
 import appendLyricToArray from "./appendLyricToArray.js";
 import sortLyricsByOccurances from "./sortLyricsByOccurances.js";
 
 const recalculateAndUpdateGlobalCollection = (
-  updatedTotalUserLyrics: [string, number][]
+  finalUserResult: [string, number][],
+  uid: string,
+  res: Response
 ) => {
   // @ts-ignore
   let cominedLyricCount = [];
+  let updatedTotalUserLyrics: [string, number][] = [];
 
   UserLyrics.find({})
     .exec()
@@ -37,6 +41,12 @@ const recalculateAndUpdateGlobalCollection = (
             if (err) console.error("failed", err);
           }
         );
+
+        res.json({
+          user: finalUserResult,
+          global: updatedTotalUserLyrics,
+          uid: uid,
+        });
       }
     });
 };
