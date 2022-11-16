@@ -1,7 +1,18 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-  spotifyUsername: String,
+  spotifyUsername: {
+    type: String,
+    required: true,
+  },
+  shortUUID: {
+    type: String,
+    required: true,
+  },
+
+  // This should be its own schema with properties of name: String,
+  // occurances: number. You will have to refactor all current code after
+  // doing this.
   sortedLyrics: [
     {
       type: Array,
@@ -11,7 +22,6 @@ const userSchema = new mongoose.Schema({
 
 const allUsersSchema = new mongoose.Schema(
   {
-    // usersArr: [userSchema],
     sortedLyrics: [
       {
         type: Array,
