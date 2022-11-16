@@ -1,6 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 
 import SpotifyContext from "../../context/SpotifyContext";
+
+import CopyToClipboard from "../ui/CopyToClipboard";
 
 import defaultUserImage from "../../assets/user.svg";
 
@@ -12,47 +14,30 @@ type Props = {};
 function UserData({}: Props) {
   const spotifyCtx = useContext(SpotifyContext);
 
-  const [userHasPFP, setUserHasPFP] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (spotifyCtx && spotifyCtx.currentPFP && spotifyCtx.currentUsername) {
-      if (spotifyCtx.currentPFP === "User has no PFP") {
-        setUserHasPFP(false);
-      } else {
-        setUserHasPFP(true);
-      }
-    }
-  }, [spotifyCtx?.currentPFP, spotifyCtx?.currentUsername]);
-
-  if (!spotifyCtx?.currentPFP && !spotifyCtx?.currentUsername) {
+  if (!spotifyCtx?.currentUsername) {
     return <>/</>;
   }
 
   return (
     <div className={`${classes.dataContainer} baseFlex`}>
-      {userHasPFP
-        ? spotifyCtx.currentPFP && (
-            <div className={`${classes.pfpContainer} baseFlex`}>
-              <img
-                style={{ borderRadius: "50%" }}
-                src={spotifyCtx.currentPFP}
-                alt={"Spotify user profile"}
-              />
-            </div>
-          )
-        : spotifyCtx.currentUsername && (
-            <div className={`${classes.pfpContainer} baseFlex`}>
-              <img
-                className={classes.fallbackPFP}
-                src={defaultUserImage}
-                alt={"Default user profile"}
-              />
-            </div>
-          )}
+      <div className={`${classes.pfpContainer} baseFlex`}>
+        <img
+          style={{ borderRadius: spotifyCtx.currentPFP ? "50%" : 0 }}
+          className={spotifyCtx.currentPFP ? "" : classes.fallbackPFP}
+          src={spotifyCtx.currentPFP ?? defaultUserImage}
+          alt={
+            spotifyCtx.currentPFP
+              ? "Spotify user profile"
+              : "Default user profile"
+          }
+        />
+      </div>
 
       {spotifyCtx.currentUsername && (
         <div className={classes.username}>{spotifyCtx.currentUsername}</div>
       )}
+
+      <CopyToClipboard />
     </div>
   );
 }
