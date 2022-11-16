@@ -54,7 +54,6 @@ function LyricMap({}: Props) {
         value: lyric[1],
       });
     }
-    console.log(transformedData);
 
     return transformedData;
   };
