@@ -3,12 +3,25 @@ import Hero from "./components/Hero/Hero";
 import MapTableToggle from "./components/Visualizations/MapTableToggle";
 
 const code = new URLSearchParams(window.location.search).get("code");
+const userIDBeingSearched = new URLSearchParams(window.location.search).get(
+  "user"
+);
 
 function App() {
   return (
     <>
       <AnimatedStarBackground />
-      {code ? <MapTableToggle code={code} /> : <Hero />}
+      {code || userIDBeingSearched ? (
+        <>
+          {code && <MapTableToggle code={code} />}
+
+          {userIDBeingSearched && (
+            <MapTableToggle userIDBeingSearched={userIDBeingSearched} />
+          )}
+        </>
+      ) : (
+        <Hero />
+      )}
     </>
   );
 }
