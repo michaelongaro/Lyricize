@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 
 import Genius from "genius-lyrics";
+import combineLyricArrays from "../util/combineLyricArrays.js";
 
 import getOccurancesPerLyric from "../util/getOccurancesPerLyrics.js";
-import recalculateAndUpdateGlobalCollection from "../util/recalculateAndUpdateGlobalCollection.js";
 
 import sanitizeLyrics from "../util/sanitizeLyrics.js";
 import sortLyricsByOccurances from "../util/sortLyricsByOccurances.js";
@@ -11,12 +11,12 @@ import sortLyricsByOccurances from "../util/sortLyricsByOccurances.js";
 const Client = new Genius.Client();
 
 export const getLyrics = async (req: Request, res: Response) => {
-  const currentUsername = req.body.currentUsername;
-  const songs = req.body.userSongList;
+  const nextSongChunk = req.body.nextSongChunk;
+  const prevUserLyrics = req.body.prevUserLyrics;
 
   const promises: Promise<string>[] = [];
 
-  for (const song of songs) {
+  for (const song of nextSongChunk) {
     const songName = song.split(",")[0];
     const artistName = song.split(",")[1];
 
@@ -38,25 +38,12 @@ export const getLyrics = async (req: Request, res: Response) => {
     }
 
     const finalUserResult = sortLyricsByOccurances(
-      getOccurancesPerLyric(formattedResults)
+      combineLyricArrays(
+        prevUserLyrics,
+        getOccurancesPerLyric(formattedResults)
+      )
     );
 
     res.json(finalUserResult);
-
-    // let finalGlobalResult: [string, number][] = [];
-
-    // UserLyrics.findOneAndUpdate(
-    //   { spotifyUsername: currentUsername },
-    //   { sortedLyrics: finalUserResult },
-    //   { upsert: true },
-    //   function (err, doc) {
-    //     if (err) {
-    //       console.log("error was:", err);
-    //     } else {
-    //       recalculateAndUpdateGlobalCollection(finalGlobalResult);
-    //       res.json({ user: finalUserResult, global: finalGlobalResult });
-    //     }
-    //   }
-    // );
   });
 };
