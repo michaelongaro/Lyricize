@@ -25,6 +25,7 @@
     "nodemon": "^2.0.20",
     "patch-package": "^6.4.7",
     "path": "^0.12.7",
+    "short-unique-id": "^4.4.4",
     "spotify-web-api-node": "^5.0.2",
     "ts-node": "^10.9.1"
   },
