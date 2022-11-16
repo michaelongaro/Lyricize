@@ -1,0 +1,17 @@
+.copyToClipboardButton {
+  margin: 0;
+  padding: 1rem;
+  border: none;
+  border-radius: 50%;
+  background-color: #1db954;
+  cursor: pointer;
+  transition: all 150ms;
+}
+
+.copyToClipboardButton:hover {
+  filter: brightness(1.05);
+}
+
+.copyToClipboardButton:active {
+  filter: brightness(.95);
+}
