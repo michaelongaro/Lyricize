@@ -101,12 +101,12 @@ ul {
 }
 
 .toggledOn {
-  box-shadow: inset 0px 2px 4px 2px hsl(0deg 0% 0% / 85%);
+  box-shadow: inset 0px 4px 7px 0px hsl(0deg 0% 0%);
 }
 
 g>text {
   pointer-events: none;
-  text-shadow: 0px 1px 5px #000000;
+  text-shadow: 0px 1px 4px hsla(0, 0%, 0%, 0.75);
 }
 
 .node>* {
