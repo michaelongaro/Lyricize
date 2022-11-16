@@ -9,6 +9,7 @@ export const useFetchUserLyrics = (
   setGlobalLyrics: React.Dispatch<
     React.SetStateAction<[string, number][] | null>
   >,
+  setUserID: React.Dispatch<React.SetStateAction<string | null>>,
   setRefreshLyrics: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   useEffect(() => {
@@ -21,6 +22,7 @@ export const useFetchUserLyrics = (
           if (res.data.user.length && res.data.global.length) {
             setUserLyrics(res.data.user);
             setGlobalLyrics(res.data.global);
+            setUserID(res.data.uid);
           } else {
             setRefreshLyrics(true);
           }
