@@ -33,7 +33,7 @@ export default function useIncrementallyFetchSongLyrics(
     ) {
       const nextSongChunk = userSongList.slice(
         incrementalIndex,
-        incrementalIndex + 20
+        incrementalIndex + 5
       );
 
       axios
@@ -44,10 +44,10 @@ export default function useIncrementallyFetchSongLyrics(
         .then((userSongsRes) => {
           if (
             userSongList?.length &&
-            incrementalIndex + 20 < userSongList.length
+            incrementalIndex + 5 < userSongList.length
           ) {
             setIncrementalUserLyrics(userSongsRes.data);
-            setIncrementalIndex((prev) => prev + 20);
+            setIncrementalIndex((prev) => prev + 5);
           } else {
             axios
               .post(import.meta.env.VITE_BACKEND_URL + "/update-database", {
