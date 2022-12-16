@@ -17,6 +17,12 @@ function Hero({}: Props) {
       </div>
 
       <Login />
+
+      <div className={classes.disclaimer}>
+        <div className={"baseFlex"}>
+          Your Spotify email must be manually whitelisted to use this app.*
+        </div>
+      </div>
     </div>
   );
 }

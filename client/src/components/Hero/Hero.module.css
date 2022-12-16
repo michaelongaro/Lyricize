@@ -8,5 +8,14 @@
 }
 
 .spotifyText {
-  color: #1DB954;
+  color: #1db954;
+}
+
+.disclaimer {
+  position: absolute;
+  bottom: 3rem;
+}
+
+.disclaimer div {
+  color: hsl(0, 0%, 80%);
 }
