@@ -60,7 +60,7 @@ function LoadingModal({}: Props) {
     if (totalProgressBarEstimatedTime) {
       secondsInterval = window.setInterval(() => {
         setTotalProgressBarEstimatedTime((prevTime) => prevTime - 1);
-      }, 550);
+      }, 1000);
     }
 
     return () => {
