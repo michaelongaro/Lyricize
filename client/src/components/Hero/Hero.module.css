@@ -19,4 +19,5 @@
 .disclaimer div {
   color: hsl(0, 0%, 80%);
   text-align: center;
+  margin: 0.75rem;
 }
