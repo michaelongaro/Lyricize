@@ -7,6 +7,17 @@
   color: white;
 }
 
+.logo {
+  font-size: 3rem;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  text-align: center;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
 .spotifyText {
   color: #1db954;
 }
@@ -20,4 +31,10 @@
   color: hsl(0, 0%, 80%);
   text-align: center;
   margin: 0.75rem;
+}
+
+@media (max-width: 500px) {
+  .subtitle {
+    font-size: 1rem;
+  }
 }
