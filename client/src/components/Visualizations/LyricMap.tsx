@@ -31,7 +31,7 @@ function LyricMap({}: Props) {
 
   useEffect(() => {
     if (userLyricsSortedByLength) {
-      setNumberOfLyricsToShow(50);
+      setNumberOfLyricsToShow(100);
     }
   }, [userLyricsSortedByLength]);
 
