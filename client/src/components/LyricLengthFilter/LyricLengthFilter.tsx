@@ -62,7 +62,7 @@ function LyricLengthFilter({
   return (
     <div className={"buttonContainer baseFlex"}>
       <div style={{ marginRight: "1.5rem", color: "rgb(204, 204, 204)" }}>
-        Letters
+        Letters:
       </div>
       <button
         className={buttonClickedStates[0] ? "toggledOn" : ""}
