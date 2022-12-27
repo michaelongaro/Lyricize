@@ -30,7 +30,9 @@ function Row({ index, lyric, occurances }: RowProps) {
 
   return (
     <tr className={classes.row}>
-      <td>{trophyEmoji ? trophyEmoji : index + 1}</td>
+      <td style={{ fontSize: trophyEmoji ? "1.25rem" : "1rem" }}>
+        {trophyEmoji ? trophyEmoji : index + 1}
+      </td>
       <td>{lyric}</td>
       <td>{occurances.toLocaleString()}</td>
     </tr>
@@ -84,7 +86,7 @@ function LyricTable({}: Props) {
           <table className={classes.table}>
             <thead className={`${classes.row} ${classes.legendRow}`}>
               <tr>
-                <th>🏆</th>
+                <th style={{ fontSize: "1.25rem" }}>🏆</th>
                 <th>Lyric</th>
                 <th>Occurances</th>
               </tr>
