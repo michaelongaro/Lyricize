@@ -37,4 +37,8 @@
   .subtitle {
     font-size: 1rem;
   }
+
+  .disclaimer {
+    bottom: 1rem;
+  }
 }
