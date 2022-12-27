@@ -21,7 +21,11 @@ function LyricMap({}: Props) {
     [string, number][] | null
   >(null);
 
-  const [numberOfLyricsToShow, setNumberOfLyricsToShow] = useState<number>(50);
+  const [decreaseButtonBrightness, setDecreaseButtonBrightness] =
+    useState("brightness(1)");
+  const [increaseButtonBrightness, setIncreaseButtonBrightness] =
+    useState("brightness(1)");
+  const [numberOfLyricsToShow, setNumberOfLyricsToShow] = useState<number>(100);
 
   const [currentScreenWidth, setCurrentScreenWidth] = useState<number>(0);
 
@@ -69,7 +73,18 @@ function LyricMap({}: Props) {
 
           <div style={{ gap: "1rem" }} className={"baseFlex"}>
             <button
-              disabled={numberOfLyricsToShow <= 50}
+              style={{ filter: decreaseButtonBrightness }}
+              disabled={numberOfLyricsToShow <= 100}
+              onMouseDown={() => setDecreaseButtonBrightness("brightness(0.5)")}
+              onMouseUp={() => setDecreaseButtonBrightness("brightness(1)")}
+              onMouseEnter={() =>
+                setDecreaseButtonBrightness("brightness(0.7)")
+              }
+              onMouseLeave={() => setDecreaseButtonBrightness("brightness(1)")}
+              onTouchStart={() =>
+                setDecreaseButtonBrightness("brightness(0.5)")
+              }
+              onTouchEnd={() => setDecreaseButtonBrightness("brightness(1)")}
               onClick={() => {
                 setNumberOfLyricsToShow((prevNum) => prevNum - 50);
               }}
@@ -78,12 +93,23 @@ function LyricMap({}: Props) {
               Show 50 less
             </button>
             <button
+              style={{ filter: increaseButtonBrightness }}
               disabled={
                 userLyricsSortedByLength &&
                 numberOfLyricsToShow >= userLyricsSortedByLength.length
                   ? true
                   : false
               }
+              onMouseDown={() => setIncreaseButtonBrightness("brightness(0.5)")}
+              onMouseUp={() => setIncreaseButtonBrightness("brightness(1)")}
+              onMouseEnter={() =>
+                setIncreaseButtonBrightness("brightness(0.7)")
+              }
+              onMouseLeave={() => setIncreaseButtonBrightness("brightness(1)")}
+              onTouchStart={() =>
+                setIncreaseButtonBrightness("brightness(0.5)")
+              }
+              onTouchEnd={() => setIncreaseButtonBrightness("brightness(1)")}
               onClick={() => {
                 setNumberOfLyricsToShow((prevNum) => prevNum + 50);
               }}
@@ -102,7 +128,7 @@ function LyricMap({}: Props) {
           }}
           width={currentScreenWidth * 0.95}
           height={currentScreenWidth * 0.95}
-          padding={5} // optional value, number that set the padding between bubbles
+          padding={2} // optional value, number that set the padding between bubbles
           showLegend={false}
           data={transformData(userLyricsSortedByLength)}
           selectedColor="#737373"
