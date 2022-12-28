@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import Genius from "genius-lyrics";
 import combineLyricArrays from "../util/combineLyricArrays.js";
 
-import getOccurancesPerLyric from "../util/getOccurancesPerLyrics.js";
+import getOccurancesPerLyric from "../util/getOccurancesPerLyric.js";
 
 import sanitizeLyrics from "../util/sanitizeLyrics.js";
 import sortLyricsByOccurances from "../util/sortLyricsByOccurances.js";
