@@ -1,6 +1,6 @@
 import combineLyricArrays from "./combineLyricArrays";
 
-test("adds newArr values to baseArr", () => {
+test("adds newArr values to empty baseArr", () => {
   expect(
     combineLyricArrays(
       [],
