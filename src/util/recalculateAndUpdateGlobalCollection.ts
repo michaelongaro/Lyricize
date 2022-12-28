@@ -9,7 +9,7 @@ const recalculateAndUpdateGlobalCollection = (
   res: Response
 ) => {
   // @ts-ignore
-  let cominedLyricCount = [];
+  let combinedLyricCount = [];
   let updatedTotalUserLyrics: [string, number][] = [];
 
   UserLyrics.find({})
@@ -17,11 +17,11 @@ const recalculateAndUpdateGlobalCollection = (
     .then((response) => {
       if (response.length > 0) {
         for (const user of response) {
-          cominedLyricCount.push(user.sortedLyrics);
+          combinedLyricCount.push(user.sortedLyrics);
         }
 
         // @ts-ignore
-        for (const lyric of cominedLyricCount.flat()) {
+        for (const lyric of combinedLyricCount.flat()) {
           updatedTotalUserLyrics = appendLyricToArray(
             updatedTotalUserLyrics,
             // @ts-ignore
