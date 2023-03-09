@@ -30,10 +30,10 @@ function LoadingModal({}: Props) {
   useEffect(() => {
     if (spotifyCtx) {
       if (spotifyCtx.refreshLyrics && spotifyCtx.totalLikedSongs) {
-        // it takes roughly .45 seconds to fetch lyrics for each song
-        setTotalEstimatedTime(spotifyCtx.totalLikedSongs * 0.45);
-        setConstTotalEstimatedTime(spotifyCtx.totalLikedSongs * 0.45);
-        setTotalProgressBarEstimatedTime(spotifyCtx.totalLikedSongs * 0.45);
+        // it takes roughly 1.5 seconds to fetch lyrics for each song
+        setTotalEstimatedTime(spotifyCtx.totalLikedSongs * 1.5);
+        setConstTotalEstimatedTime(spotifyCtx.totalLikedSongs * 1.5);
+        setTotalProgressBarEstimatedTime(spotifyCtx.totalLikedSongs * 1.5);
       }
     }
   }, [spotifyCtx?.refreshLyrics, spotifyCtx?.totalLikedSongs]);
