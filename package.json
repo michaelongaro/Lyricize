@@ -8,9 +8,7 @@
     "start": "node dist/index.js",
     "dev": "nodemon src/index.ts",
     "build": "tsc -p .",
-    "test": "jest",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client && npm run build",
-    "postinstall": "patch-package"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
