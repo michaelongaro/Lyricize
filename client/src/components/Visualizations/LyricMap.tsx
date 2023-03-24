@@ -11,6 +11,8 @@ import LoadingModal from "../LoadingModal/LoadingModal";
 
 import { motion } from "framer-motion";
 
+import "../../index.scss";
+
 type Props = {};
 
 function LyricMap({}: Props) {

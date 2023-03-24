@@ -8,6 +8,9 @@ import ScrollToTop from "../ScrollToTop/ScrollToTop";
 
 import { motion } from "framer-motion";
 
+import classes from "./LyricTable.module.scss";
+import "../../index.scss";
+
 type RowProps = {
   index: number;
   lyric: string;

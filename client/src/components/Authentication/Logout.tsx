@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import logoutIcon from "../../assets/logout.svg";
 
-import classes from "./Logout.module.css";
+import classes from "./Logout.module.scss";
 
 type Props = {};
 

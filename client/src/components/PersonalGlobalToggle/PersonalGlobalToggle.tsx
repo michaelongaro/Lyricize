@@ -7,8 +7,8 @@ import RefreshData from "../UserData/RefreshData";
 import userIcon from "../../assets/user.svg";
 import worldIcon from "../../assets/world.svg";
 
-import classes from "./PersonalGlobalToggle.module.css";
-import "../../index.css";
+import classes from "./PersonalGlobalToggle.module.scss";
+import "../../index.scss";
 import Logout from "../Authentication/Logout";
 
 type Props = {};

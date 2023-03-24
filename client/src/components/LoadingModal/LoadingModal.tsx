@@ -3,8 +3,8 @@ import { useState, useEffect, useContext } from "react";
 import SpotifyContext from "../../context/SpotifyContext";
 import ProgressBar from "./ProgressBar";
 
-import classes from "./LoadingModal.module.css";
-import "../../index.css";
+import classes from "./LoadingModal.module.scss";
+import "../../index.scss";
 
 type Props = {};
 

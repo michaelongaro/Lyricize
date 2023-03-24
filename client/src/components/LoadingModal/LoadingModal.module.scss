@@ -1,10 +1,12 @@
+@use "../../index.scss" as global;
+
 .modalBackground {
   position: absolute;
   top: 0;
   left: 0;
 
   width: 100vw;
-  height: 100vh;
+  min-height: 100dvh;
   background: rgb(0 0 0 / 75%);
 
   z-index: 500;
@@ -12,7 +14,7 @@
 
 .modalContainer {
   border-radius: 0.75rem;
-  background-color: rgb(204, 204, 204);
+  background-color: global.$offwhite;
   padding: 3rem;
   gap: 1.5rem;
 
@@ -113,38 +115,38 @@
 
 @-webkit-keyframes color {
   0% {
-    stroke: #1db954;
+    stroke: global.$color-primary;
   }
 
   40% {
-    stroke: #1db954;
+    stroke: global.$color-primary;
   }
 
   66% {
-    stroke: #1db954;
+    stroke: global.$color-primary;
   }
 
   80%,
   90% {
-    stroke: #1db954;
+    stroke: global.$color-primary;
   }
 }
 
 @keyframes color {
   0% {
-    stroke: #1db954;
+    stroke: global.$color-primary;
   }
 
   40% {
-    stroke: #1db954;
+    stroke: global.$color-primary;
   }
 
   66% {
-    stroke: #1db954;
+    stroke: global.$color-primary;
   }
 
   80%,
   90% {
-    stroke: #1db954;
+    stroke: global.$color-primary;
   }
 }

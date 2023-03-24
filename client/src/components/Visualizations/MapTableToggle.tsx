@@ -15,8 +15,7 @@ import { AnimatePresence } from "framer-motion";
 import mapIcon from "../../assets/map.svg";
 import listIcon from "../../assets/list.svg";
 
-import classes from "./MapTableToggle.module.css";
-import "../../index.css";
+import "../../index.scss";
 
 type Props = {
   code?: string;
@@ -69,7 +68,14 @@ function MapTableToggle({ code, userIDBeingSearched }: Props) {
           className={`${mapSelected ? "toggledOn" : ""} baseFlex`}
           onClick={() => setMapSelected(true)}
         >
-          <img src={mapIcon} className={classes.icon} alt={"Bubble map icon"} />
+          <img
+            src={mapIcon}
+            style={{
+              width: "1.5rem",
+              height: "1.5rem",
+            }}
+            alt={"Bubble map icon"}
+          />
           Map
         </button>
         <button
@@ -77,13 +83,20 @@ function MapTableToggle({ code, userIDBeingSearched }: Props) {
           className={`${!mapSelected ? "toggledOn" : ""} baseFlex`}
           onClick={() => setMapSelected(false)}
         >
-          <img src={listIcon} className={classes.icon} alt={"Table icon"} />
+          <img
+            src={listIcon}
+            style={{
+              width: "1.5rem",
+              height: "1.5rem",
+            }}
+            alt={"Table icon"}
+          />
           List
         </button>
       </div>
 
       <AnimatePresence>
-      {mapSelected ? <LyricMap /> : <LyricTable />}
+        {mapSelected ? <LyricMap /> : <LyricTable />}
       </AnimatePresence>
     </div>
   );

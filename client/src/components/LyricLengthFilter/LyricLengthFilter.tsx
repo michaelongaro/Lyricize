@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
-import classes from "./LyricLengthFilter.module.css";
-import "../../index.css";
+import "../../index.scss";
 
 type Props = {
   originalUserLyrics: [string, number][];
@@ -61,7 +60,7 @@ function LyricLengthFilter({
 
   return (
     <div className={"buttonContainer baseFlex"}>
-      <div style={{ marginRight: "1.5rem", color: "rgb(204, 204, 204)" }}>
+      <div style={{ marginRight: "1.5rem", color: "hsl(0, 0%, 80%)" }}>
         Letters:
       </div>
       <button

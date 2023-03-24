@@ -6,12 +6,12 @@
   background-color: #1db954;
   cursor: pointer;
   transition: all 150ms;
-}
 
-.copyToClipboardButton:hover {
-  filter: brightness(1.05);
-}
+  &:hover {
+    filter: brightness(1.15);
+  }
 
-.copyToClipboardButton:active {
-  filter: brightness(.95);
+  &:active {
+    filter: brightness(0.95);
+  }
 }

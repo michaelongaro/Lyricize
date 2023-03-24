@@ -1,0 +1,27 @@
+@use "../../index.scss" as global;
+
+.loginButton {
+  text-decoration: none;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 5rem;
+  background-color: global.$color-primary;
+  cursor: pointer;
+  border-style: none;
+
+  img {
+    width: 25px;
+    height: 25px;
+  }
+
+  &:hover {
+    scale: 1.05;
+    filter: brightness(1.05);
+  }
+
+  &:active {
+    scale: 0.99;
+    transform: translateY(1px);
+    filter: brightness(0.95);
+  }
+}

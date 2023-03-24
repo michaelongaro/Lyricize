@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 
 import upArrowIcon from "../../assets/upArrow.svg";
 
-import classes from "./ScrollToTop.module.css";
-import "../../index.css";
+import classes from "./ScrollToTop.module.scss";
+import "../../index.scss";
 
 function ScrollToTop(props: any) {
   const [scrollThresholdReached, setScrollThresholdReached] =

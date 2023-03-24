@@ -1,3 +1,5 @@
+@use "../../index.scss" as global;
+
 .topContainer {
   display: flex;
   justify-content: space-between;
@@ -19,7 +21,7 @@
 .logo {
   margin-left: 2rem;
   font-size: 2em;
-  color: rgb(204, 204, 204);
+  color: global.$offwhite;
 }
 
 .toggleButton {
@@ -54,6 +56,6 @@
 
 @media (max-width: 435px) {
   .controlsContainer {
-    transform: scale(.9);
+    transform: scale(0.9);
   }
 }

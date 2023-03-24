@@ -3,8 +3,8 @@ import SpotifyContext from "../../context/SpotifyContext";
 
 import refreshIcon from "../../assets/refresh.svg";
 
-import classes from "./RefreshData.module.css";
-import "../../index.css";
+import classes from "./RefreshData.module.scss";
+import "../../index.scss";
 
 type Props = {};
 
@@ -20,14 +20,15 @@ function RefreshData({}: Props) {
       onTouchStart={() => setRotateDegrees("270deg")}
       onMouseUp={() => {
         setRotateDegrees("0deg");
-        spotifyCtx?.setRefreshLyrics(true);
       }}
       onTouchEnd={() => {
         setRotateDegrees("0deg");
-        spotifyCtx?.setRefreshLyrics(true);
       }}
       onMouseOut={() => setRotateDegrees("0deg")}
       onTouchCancel={() => setRotateDegrees("0deg")}
+      onClick={() => {
+        spotifyCtx?.setRefreshLyrics(true);
+      }}
     >
       <img
         style={{ rotate: `${rotateDegrees}` }}

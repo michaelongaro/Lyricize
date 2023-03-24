@@ -6,8 +6,8 @@ import CopyToClipboard from "../ui/CopyToClipboard";
 
 import defaultUserImage from "../../assets/user.svg";
 
-import classes from "./UserData.module.css";
-import "../../index.css";
+import classes from "./UserData.module.scss";
+import "../../index.scss";
 
 type Props = {};
 

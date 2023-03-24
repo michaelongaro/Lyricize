@@ -1,11 +1,13 @@
+@use "../../index.scss" as global;
+
 .hero {
   position: relative;
-  min-height: 100vh;
+  min-height: 100dvh;
   gap: 1rem;
-}
 
-.hero div {
-  color: white;
+  div {
+    color: white;
+  }
 }
 
 .logo {
@@ -20,18 +22,18 @@
 }
 
 .spotifyText {
-  color: #1db954;
+  color: global.$color-primary;
 }
 
 .disclaimer {
   position: absolute;
   bottom: 3rem;
-}
 
-.disclaimer div {
-  color: hsl(0, 0%, 80%);
-  text-align: center;
-  margin: 0.75rem;
+  div {
+    color: hsl(0, 0%, 80%);
+    text-align: center;
+    margin: 0.75rem;
+  }
 }
 
 @media (max-width: 500px) {

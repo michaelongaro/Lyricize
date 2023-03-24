@@ -1,3 +1,5 @@
+@use "../../index.scss" as global;
+
 .dataContainer {
   gap: 1.5rem;
   margin-top: 2.5rem;
@@ -7,7 +9,7 @@
   border-radius: 50%;
   width: 4.5rem;
   height: 4.5rem;
-  background-color: rgb(204, 204, 204);
+  background-color: global.$offwhite;
 }
 
 .fallbackPFP {
@@ -17,7 +19,7 @@
 }
 
 .username {
-  color: rgb(204, 204, 204);
+  color: global.$offwhite;
   font-size: 1.25em;
 }
 

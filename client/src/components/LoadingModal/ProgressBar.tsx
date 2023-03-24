@@ -3,7 +3,7 @@ import SpotifyContext from "../../context/SpotifyContext";
 
 import { Line } from "rc-progress";
 
-import "../../index.css";
+import "../../index.scss";
 
 type Props = {
   estimatedSecondsRemainingStr: string;

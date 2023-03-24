@@ -2,8 +2,8 @@ import { useState } from "react";
 
 import spotifyIcon from "../../assets/spotify.png";
 
-import classes from "./Login.module.css";
-import "../../index.css";
+import classes from "./Login.module.scss";
+import "../../index.scss";
 
 type Props = {};
 
@@ -25,7 +25,7 @@ function Login({}: Props) {
         zIndex: animationStarted ? 1000 : 1,
         transform: `scale(${animationStarted ? 200 : 1}`,
         pointerEvents: animationStarted ? "none" : "auto",
-        transition: animationStarted ? "all 2000ms" : "all 150ms",
+        transition: animationStarted ? "all 2000ms" : "all 200ms",
       }}
       className={`${classes.loginButton} baseFlex`}
       onClick={() => {

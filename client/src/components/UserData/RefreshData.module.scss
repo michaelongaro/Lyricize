@@ -1,0 +1,23 @@
+.refreshButton {
+  height: 3.33rem;
+
+  background-color: #1db954;
+
+  cursor: pointer;
+
+  transition: all 150ms;
+
+  img {
+    width: 1.5rem;
+    height: 1.5rem;
+    transition: inherit;
+  }
+
+  &:hover {
+    filter: brightness(1.05);
+  }
+
+  &:active {
+    filter: brightness(0.95);
+  }
+}

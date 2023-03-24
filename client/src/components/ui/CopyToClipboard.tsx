@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 
 import SpotifyContext from "../../context/SpotifyContext";
 
-import classes from "./CopyToClipboard.module.css";
+import classes from "./CopyToClipboard.module.scss";
 
 type Props = {};
 

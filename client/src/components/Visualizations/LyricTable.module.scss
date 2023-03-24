@@ -12,7 +12,7 @@
 
 table {
   border-collapse: separate !important;
-  border-radius: .75rem;
+  border-radius: 0.75rem;
   overflow: hidden;
 }
 
@@ -29,8 +29,8 @@ tr:nth-child(even) {
 
 .legendRow {
   background-color: hsl(0, 0%, 45%);
-}
 
-.legendRow th {
-  color: black;
+  th {
+    color: black;
+  }
 }

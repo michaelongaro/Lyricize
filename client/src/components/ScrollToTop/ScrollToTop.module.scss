@@ -11,24 +11,25 @@
   height: 50px;
   pointer-events: none;
   transition: all 150ms;
-}
 
-.scrollToTopContainer>img {
-  width: 25px;
-  height: 25px;
-  padding: 0;
-}
+  > img {
+    width: 25px;
+    height: 25px;
+  }
 
-@media (hover: hover) and (pointer: fine) {
-  .scrollToTopContainer:hover {
-    background-color: #ffffff;
-    filter: brightness(1.1);
+  &:active {
+    filter: brightness(0.95);
+    bottom: calc(1rem - 3px);
   }
 }
 
-.scrollToTopContainer:active {
-  filter: brightness(0.95);
-  bottom: calc(1rem - 3px);
+@media (hover: hover) and (pointer: fine) {
+  .scrollToTopContainer {
+    &:hover {
+      background-color: #ffffff;
+      filter: brightness(1.1);
+    }
+  }
 }
 
 @media (max-width: 600px) {
@@ -38,8 +39,10 @@
     height: 40px;
   }
 
-  .scrollToTopContainer>img {
-    width: 15px;
-    height: 15px;
+  .scrollToTopContainer {
+    > img {
+      width: 20px;
+      height: 20px;
+    }
   }
 }
