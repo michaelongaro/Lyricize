@@ -9,8 +9,7 @@ import SpotifyContext from "../../context/SpotifyContext";
 
 import LoadingModal from "../LoadingModal/LoadingModal";
 
-import classes from "./LyricMap.module.css";
-import "../../index.css";
+import { motion } from "framer-motion";
 
 type Props = {};
 
@@ -63,7 +62,15 @@ function LyricMap({}: Props) {
   };
 
   return (
-    <div style={{ gap: "2rem" }} className={"baseVertFlex"}>
+    <motion.div
+      key={"lyricMap"}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      style={{ gap: "2rem" }}
+      className={"baseVertFlex"}
+    >
       {spotifyCtx?.currentlySelectedLyrics && (
         <div style={{ gap: "1.5rem" }} className={"baseVertFlex"}>
           <LyricLengthFilter
@@ -137,7 +144,7 @@ function LyricMap({}: Props) {
       ) : (
         <LoadingModal />
       )}
-    </div>
+    </motion.div>
   );
 }
 

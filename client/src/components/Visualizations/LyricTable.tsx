@@ -6,8 +6,7 @@ import LyricLengthFilter from "../LyricLengthFilter/LyricLengthFilter";
 import LoadingModal from "../LoadingModal/LoadingModal";
 import ScrollToTop from "../ScrollToTop/ScrollToTop";
 
-import classes from "./LyricTable.module.css";
-import "../../index.css";
+import { motion } from "framer-motion";
 
 type RowProps = {
   index: number;
@@ -73,7 +72,14 @@ function LyricTable({}: Props) {
   }, [userLyricsSortedByLength, numberOfLyricsToShow]);
 
   return (
-    <div className={`${classes.headerTableContainer} baseVertFlex`}>
+    <motion.div
+      key={"lyricTable"}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25 }}
+      className={`${classes.headerTableContainer} baseVertFlex`}
+    >
       {spotifyCtx?.currentlySelectedLyrics && (
         <LyricLengthFilter
           originalUserLyrics={spotifyCtx.currentlySelectedLyrics}
@@ -112,7 +118,7 @@ function LyricTable({}: Props) {
       ) : (
         <LoadingModal />
       )}
-    </div>
+    </motion.div>
   );
 }
 

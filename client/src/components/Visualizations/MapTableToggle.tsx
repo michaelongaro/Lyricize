@@ -10,6 +10,8 @@ import LyricMap from "./LyricMap";
 import PersonalGlobalToggle from "../PersonalGlobalToggle/PersonalGlobalToggle";
 import UserData from "../UserData/UserData";
 
+import { AnimatePresence } from "framer-motion";
+
 import mapIcon from "../../assets/map.svg";
 import listIcon from "../../assets/list.svg";
 
@@ -79,7 +81,10 @@ function MapTableToggle({ code, userIDBeingSearched }: Props) {
           List
         </button>
       </div>
+
+      <AnimatePresence>
       {mapSelected ? <LyricMap /> : <LyricTable />}
+      </AnimatePresence>
     </div>
   );
 }
